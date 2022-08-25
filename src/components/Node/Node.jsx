@@ -1,21 +1,23 @@
 import React, {useEffect, useState} from 'react'
 import "./Node.css";
 
-export default function Node({row,col, isClicked, checkNodeLift}){
-    const [nodeID, setNodeID] = useState('')
-    
-    useEffect(()=>{
+export default function Node({node, isClicked, checkNodeLift}){
+    let color = ''
 
-    },[nodeID])
+    if(node.clicked){
+        color = 'clicked'
+    }
 
+    useEffect(() => {
+        console.log("inside the node")
+    })
     function checkNode(){
-        checkNodeLift(row,col)
-        setNodeID('clicked')
+        checkNodeLift(node.row,node.col)
     }
 
 
     return(
-        <div className='node' id={nodeID} onClick={checkNode}>
+        <div className='node' id={color} onClick={checkNode}>
         </div>
     )
 }
