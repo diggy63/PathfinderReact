@@ -4,9 +4,9 @@ import "./Node.css";
 export default function Node({node, isClicked, checkNodeLift}){
     let color = ''
     if(node.row === 0 & node.col === 0){
-        console.log('node loaded')
+        console.log(node)
     }
-    if(node.clicked){
+    if(node.isVisited){
         color = 'clicked'
     }
 
