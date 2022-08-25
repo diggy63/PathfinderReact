@@ -12,6 +12,7 @@ export default function Node({node, isClicked, checkNodeLift}){
 
     function checkNode(){
         checkNodeLift(node.row,node.col)
+        color = 'clicked'
     }
 
 
