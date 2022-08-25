@@ -18,21 +18,17 @@ export default function Pathfinder() {
       console.log("mount");
       const grid = gridInit();
       setgrid(grid);
-      // setloaded(true)
     } else {
       // the to part is a init for the useeffect and the cords are sent to a function to set the new state
-      // console.log("use effect");
       setNewGrid(nodeCoords[0], nodeCoords[1]);
     }
   }, [nodeCoords]);
 
   async function setgrid(node) {
-    // console.log("setGrid");
     await setNodes(node);
     setloaded(true);
   }
   async function setNewGrid(row, col) {
-    // console.log("setNewGrid");
     let newNodes = [...nodes]
     newNodes[row][col].isVisited = !newNodes[row][col].isVisited
     // in here we change the new state to have everything the same except that the node we clicked on is now visitied
@@ -48,13 +44,10 @@ export default function Pathfinder() {
   }
 
 
-  // console.log("in the function");
   return (
     <div className="container">
       <Options/>
       <div className="grid">
-        {/* I am using my nodes state to make an array of an array of the node I made to represent them on a webpage with corrispoding row and col vars. when i click one i want to make its visited
-         value equal true I do that in my checknode function*/}
         {nodes.map((row,ri) =>{
           return(
               <>
@@ -73,7 +66,6 @@ export default function Pathfinder() {
   );
 
   function gridInit() {
-    console.log("init");
     const nodestart = [];
     for (let row = 0; row < ROWS; row++) {
       const currentRow = [];

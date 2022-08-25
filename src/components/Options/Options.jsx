@@ -1,9 +1,13 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 export default function Options(){
+    const [start, setStart] = useState(false)
+    function handleStart(e){
+        setStart(!start)
+    }
     return(
         <>
-        <input type="checkbox" id="start" name="start" value="start"/>
+        <input type="checkbox" value='off' onChange={handleStart}/>
         </>
     )
 }
