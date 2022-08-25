@@ -3,14 +3,13 @@ import "./Node.css";
 
 export default function Node({node, isClicked, checkNodeLift}){
     let color = ''
-
+    if(node.row === 0 & node.col === 0){
+        console.log('node loaded')
+    }
     if(node.clicked){
         color = 'clicked'
     }
 
-    useEffect(() => {
-        console.log("inside the node")
-    })
     function checkNode(){
         checkNodeLift(node.row,node.col)
     }

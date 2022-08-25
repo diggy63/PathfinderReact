@@ -3,12 +3,8 @@ import React from "react";
 import Node from "../Node/Node";
 
 export default function NodeList({ nodes, checkNode }) {
-    
-  if(nodes.length > 20){
-    console.log('added extra')
-    nodes.pop()
-  }
-
+  // console.log("nodelist loaded")
+  // console.log(nodes)
   const nodesList = nodes.map((item, i) => {
     if (i > 19) {
       console.log(nodes);
