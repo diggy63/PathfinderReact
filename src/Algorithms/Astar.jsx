@@ -4,7 +4,7 @@ export default async function Astar(start,end,nodes){
     const nodeScorse = AstarInit(start,end)
     const open_set = [nodeScorse[start[0]][start[1]]]
     const noders = await runAstar(open_set,nodeScorse,end,nodes)
-    console.log(noders)
+    return noders
     
 
 }
@@ -58,13 +58,11 @@ function createAstarNode(col, row) {
   }
 
   async function runAstar(open_set, nodeScorse, end, nodes){
-    let i = 0
     const visitedNodes= []
     while(open_set.length > 0){
 
         const current = await open_set[0]
         open_set.shift()
-        console.log(current)
 
         if(current.row === end[0] && current.col === end[1]){
             return visitedNodes
@@ -75,14 +73,26 @@ function createAstarNode(col, row) {
             if(newGScore < item.gScore){
                 item.gScore = newGScore
                 item.fScore = item.gScore + h([item.row,item.col],end)
+                const bool = checkVisiteditems(open_set,item)
+                if(!bool){
+                    open_set.push(item)
+                    visitedNodes.push(item)
+                }
             }
-            open_set.push(item)
-            visitedNodes.push(item)
+            
+            
         })
         open_set.sort((a,b) =>{
             return a.fScore - b.fScore
         })
-        i = i + 1
     }
-    return visitedNodes
+  }
+
+  function checkVisiteditems(open_set,item){
+        open_set.forEach(checkItem=>{
+            if(checkItem === item){
+                return true
+            }
+        })
+        return false
   }

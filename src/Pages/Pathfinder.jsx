@@ -8,12 +8,13 @@ import Node from "../components/Node/Node";
 import Options from "../components/Options/Options";
 
 export default function Pathfinder() {
+  const [counter,setCounter] = useState(0)
   const [nodes, setNodes] = useState([]);
   const [loaded, setloaded] = useState(false);
-  const [startPoint, setStartPoint] = useState(false)
-  const [endPoint, setEndPoint] = useState(false)
+  const [startPoint, setStartPoint] = useState(false);
+  const [endPoint, setEndPoint] = useState(false);
   const [isStart, setIsStart] = useState(false);
-  const [isEnd, setIsEnd] = useState(false)
+  const [isEnd, setIsEnd] = useState(false);
   const ROWS = 20;
   const COLS = 50;
 
@@ -22,7 +23,6 @@ export default function Pathfinder() {
       console.log("mount");
       const grid = gridInit();
       setgrid(grid);
-    } else {
     }
   }, []);
 
@@ -35,45 +35,58 @@ export default function Pathfinder() {
     setloaded(false);
     let newNodes = [...nodes];
     if (isStart) {
-      if(startPoint){
+      if (startPoint) {
         newNodes[startPoint[0]][startPoint[1]].isStart = false;
       }
       newNodes[row][col].isStart = true;
-      setStartPoint([row,col])
-    }else if(isEnd){
-      if(endPoint){
+      setStartPoint([row, col]);
+    } else if (isEnd) {
+      if (endPoint) {
         newNodes[endPoint[0]][endPoint[1]].isEnd = false;
       }
       newNodes[row][col].isEnd = true;
-      setEndPoint([row,col])
-      
-    }else{
-      newNodes[row][col].isWall = !newNodes[row][col].isWall
+      setEndPoint([row, col]);
+    } else {
+      newNodes[row][col].isWall = !newNodes[row][col].isWall;
     }
     setNodes(newNodes);
     setloaded(true);
   }
-  async function runAlgo(){
-    const ans = await Astar(startPoint,endPoint,nodes)
-    let newNodes = [...nodes]
-    // ans.forEach(item =>{
-    //     newNodes[item.row][item.col].isVisited = true
-    //     setNodes(newNodes);
-    // })
+  async function runAlgo() {
+    const ans = await Astar(startPoint, endPoint, nodes);
+    let timer;
+    for(let i = 0; i < ans.length; i++){
+         timer = setInterval(()=> {
+          runAnimation(ans,i);
+        },3000)
+      
+    }
+    clearInterval(timer)
   }
 
+  function runAnimation(visitedNodes,counter) {
+        let newNodes = [...nodes];
+        newNodes[visitedNodes[counter].row][visitedNodes[counter].col].isVisited = true;
+        setNodes(newNodes);
+  }
   function seeStart(bool) {
-    setIsEnd(false)
+    setIsEnd(false);
     setIsStart(bool);
   }
 
   function seeEnd(bool) {
-    setIsStart(false)
+    setIsStart(false);
     setIsEnd(bool);
+  }
+
+  function addCount(){
+    setCounter(counter+1)
+    console.log(counter)
   }
 
   return (
     <div className="container">
+      <button onClick={addCount}>counter</button>
       <Options seeStart={seeStart} seeEnd={seeEnd} runAlgo={runAlgo} />
       <div className="grid">
         {nodes.map((row, ri) => {
