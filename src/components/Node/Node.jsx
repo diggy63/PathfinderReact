@@ -3,8 +3,6 @@ import "./Node.css";
 
 export default function Node({node, nodeColor, checkNodeLift}){
     let color = ''
-
-
     if(node.isVisited){
         color = 'Blue'
     }else if(node.isStart){

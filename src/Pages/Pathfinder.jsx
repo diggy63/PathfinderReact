@@ -19,20 +19,16 @@ export default function Pathfinder() {
   const COLS = 50;
 
   useEffect(() => {
-    if (nodes.length === 0) {
       console.log("mount");
       const grid = gridInit();
       setgrid(grid);
-    }
   }, []);
 
-  async function setgrid(node) {
-    await setNodes(node);
-    setloaded(true);
+  function setgrid(node) {
+    setNodes(node);
   }
 
   async function checkNode(row, col) {
-    setloaded(false);
     let newNodes = [...nodes];
     if (isStart) {
       if (startPoint) {
@@ -48,27 +44,24 @@ export default function Pathfinder() {
       setEndPoint([row, col]);
     } else {
       newNodes[row][col].isWall = !newNodes[row][col].isWall;
+      setNodes(newNodes)
     }
-    setNodes(newNodes);
-    setloaded(true);
-  }
-  async function runAlgo() {
-    const ans = await Astar(startPoint, endPoint, nodes);
-    let timer;
-    for(let i = 0; i < ans.length; i++){
-         timer = setInterval(()=> {
-          runAnimation(ans,i);
-        },3000)
-      
-    }
-    clearInterval(timer)
   }
 
-  function runAnimation(visitedNodes,counter) {
+
+  async function runAlgo() {
+    const ans = await Astar(startPoint, endPoint, nodes);
+    for(let i = 0; i < ans.length; i++){
+          runAnimation(ans,i);
+    }
+  }
+
+  async function runAnimation(visitedNodes,counter) {
         let newNodes = [...nodes];
         newNodes[visitedNodes[counter].row][visitedNodes[counter].col].isVisited = true;
-        setNodes(newNodes);
+        setNodes(newNodes)
   }
+
   function seeStart(bool) {
     setIsEnd(false);
     setIsStart(bool);
@@ -79,14 +72,8 @@ export default function Pathfinder() {
     setIsEnd(bool);
   }
 
-  function addCount(){
-    setCounter(counter+1)
-    console.log(counter)
-  }
-
   return (
     <div className="container">
-      <button onClick={addCount}>counter</button>
       <Options seeStart={seeStart} seeEnd={seeEnd} runAlgo={runAlgo} />
       <div className="grid">
         {nodes.map((row, ri) => {
@@ -118,8 +105,6 @@ export default function Pathfinder() {
     return {
       col,
       row,
-      // isStart: row === START_NODE_ROW && col === START_NODE_COL,
-      // isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
       isStart: false,
       distance: Infinity,
       isVisited: false,

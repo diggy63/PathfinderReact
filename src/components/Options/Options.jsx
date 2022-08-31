@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react'
 export default function Options({seeStart, seeEnd, runAlgo}){
     const [isStart, setIsStart] = useState(false)
     const [isEnd, setIsEnd] = useState(false)
-
+    console.log('options reloaeded')
 
     // useEffect(() =>{
     //     console.log("switch")
