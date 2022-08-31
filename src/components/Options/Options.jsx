@@ -1,13 +1,23 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
-export default function Options(){
-    const [start, setStart] = useState(false)
-    function handleStart(e){
-        setStart(!start)
+export default function Options({seeStart}){
+    const [isStart, setIsStart] = useState(false)
+
+
+    // useEffect(() =>{
+    //     console.log("switch")
+    // },[start])
+
+    
+    function handleStart(){
+        seeStart(!isStart)
+        setIsStart(!isStart)
+        
     }
     return(
-        <>
-        <input type="checkbox" value='off' onChange={handleStart}/>
-        </>
+        <div>
+        {isStart ? <h1>set start</h1> : <h1>click to set start</h1>}
+        <button onClick={handleStart}>start</button>
+        </div>
     )
 }

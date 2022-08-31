@@ -9,6 +9,8 @@ import Options from "../components/Options/Options";
 export default function Pathfinder() {
   const [nodes, setNodes] = useState([]);
   const [loaded, setloaded] = useState(false);
+  const [isStart, setIsStart] = useState(false)
+  const [nodeColor, setNodeColor] = useState('Blue')
   const [nodeCoords, setNoteChoords] = useState([90, 90]);
   const ROWS = 20;
   const COLS = 50;
@@ -33,8 +35,6 @@ export default function Pathfinder() {
     newNodes[row][col].isVisited = !newNodes[row][col].isVisited
     // in here we change the new state to have everything the same except that the node we clicked on is now visitied
     setNodes(newNodes)
-    console.log(nodes[row][col])
-    console.log(nodes)
   }
   // this function gets the row and col of the node component lifted to the main componentand then sends its to the useffect
   async function checkNode(row, col) {
@@ -43,17 +43,21 @@ export default function Pathfinder() {
     setloaded(true)
   }
 
+  function seeStart(bool){
+    setIsStart(bool)
+  }
+
 
   return (
     <div className="container">
-      <Options/>
+      <Options seeStart={seeStart}/>
       <div className="grid">
         {nodes.map((row,ri) =>{
           return(
               <>
                 {row.map((node,ni) => {
                   return(
-                  <Node key={ni} node={node} checkNodeLift={checkNode}/>
+                  <Node key={ni} node={node} checkNodeLift={checkNode} isStart={isStart}/>
                   )
                 })}
                 </>

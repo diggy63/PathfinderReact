@@ -3,8 +3,6 @@ import React from "react";
 import Node from "../Node/Node";
 
 export default function NodeList({ nodes, checkNode }) {
-  console.log("nodelist loaded")
-  console.log(nodes)
   // const nodesList = nodes.map((item, i) => {
   //   if (i > 19) {
   //     console.log(nodes);

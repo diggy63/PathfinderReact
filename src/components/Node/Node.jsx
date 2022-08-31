@@ -1,18 +1,21 @@
 import React, {useEffect, useState} from 'react'
 import "./Node.css";
 
-export default function Node({node, isClicked, checkNodeLift}){
+export default function Node({node,isStart, checkNodeLift}){
     let color = ''
-    if(node.row === 0 & node.col === 0){
-        console.log(node)
-    }
+
+    console.log(isStart)
+
     if(node.isVisited){
-        color = 'clicked'
+        color = 'Blue'
+    }
+
+    if(node.isStart){
+        color = 'Orange'
     }
 
     function checkNode(){
         checkNodeLift(node.row,node.col)
-        color = 'clicked'
     }
 
 
