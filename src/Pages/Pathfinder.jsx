@@ -9,9 +9,10 @@ import Options from "../components/Options/Options";
 export default function Pathfinder() {
   const [nodes, setNodes] = useState([]);
   const [loaded, setloaded] = useState(false);
-  const [isStart, setIsStart] = useState(false)
-  const [nodeColor, setNodeColor] = useState('Blue')
-  const [nodeCoords, setNoteChoords] = useState([90, 90]);
+  const [startPoint, setStartPoint] = useState(false)
+  const [endPoint, setEndPoint] = useState(false)
+  const [isStart, setIsStart] = useState(false);
+  const [isEnd, setIsEnd] = useState(false)
   const ROWS = 20;
   const COLS = 50;
 
@@ -21,51 +22,64 @@ export default function Pathfinder() {
       const grid = gridInit();
       setgrid(grid);
     } else {
-      // the to part is a init for the useeffect and the cords are sent to a function to set the new state
-      setNewGrid(nodeCoords[0], nodeCoords[1]);
     }
-  }, [nodeCoords]);
+  }, []);
 
   async function setgrid(node) {
     await setNodes(node);
     setloaded(true);
   }
-  async function setNewGrid(row, col) {
-    let newNodes = [...nodes]
-    newNodes[row][col].isVisited = !newNodes[row][col].isVisited
-    // in here we change the new state to have everything the same except that the node we clicked on is now visitied
-    setNodes(newNodes)
-  }
-  // this function gets the row and col of the node component lifted to the main componentand then sends its to the useffect
+
   async function checkNode(row, col) {
-    setloaded(false)
-    await setNoteChoords([row, col]);
-    setloaded(true)
+    setloaded(false);
+    if (isStart) {
+      let newNodes = [...nodes];
+      if(startPoint){
+        newNodes[startPoint[0]][startPoint[1]].isStart = false;
+      }
+      newNodes[row][col].isStart = true;
+      setStartPoint([row,col])
+      setNodes(newNodes);
+    }else if(isEnd){
+      let newNodes = [...nodes];
+      if(endPoint){
+        newNodes[endPoint[0]][endPoint[1]].isEnd = false;
+      }
+      newNodes[row][col].isEnd = true;
+      setEndPoint([row,col])
+      setNodes(newNodes);
+    }
+    setloaded(true);
+    console.log(startPoint,endPoint)
+  }
+  function runAlgo(){
+    console.log("here")
   }
 
-  function seeStart(bool){
-    setIsStart(bool)
+  function seeStart(bool) {
+    setIsEnd(false)
+    setIsStart(bool);
   }
 
+  function seeEnd(bool) {
+    setIsStart(false)
+    setIsEnd(bool);
+  }
 
   return (
     <div className="container">
-      <Options seeStart={seeStart}/>
+      <Options seeStart={seeStart} seeEnd={seeEnd} runAlgo={runAlgo} />
       <div className="grid">
-        {nodes.map((row,ri) =>{
-          return(
-              <>
-                {row.map((node,ni) => {
-                  return(
-                  <Node key={ni} node={node} checkNodeLift={checkNode} isStart={isStart}/>
-                  )
-                })}
-                </>
-          )
+        {nodes.map((row, ri) => {
+          return (
+            <>
+              {row.map((node, ni) => {
+                return <Node key={ni} node={node} checkNodeLift={checkNode} />;
+              })}
+            </>
+          );
         })}
-        
-        
-        </div>
+      </div>
     </div>
   );
 
@@ -87,9 +101,10 @@ export default function Pathfinder() {
       row,
       // isStart: row === START_NODE_ROW && col === START_NODE_COL,
       // isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
-      isStart:false,
+      isStart: false,
       distance: Infinity,
       isVisited: false,
+      isEnd: false,
       isWall: false,
       previousNode: null,
     };
