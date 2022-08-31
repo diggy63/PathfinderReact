@@ -2,8 +2,9 @@ import React, { useEffect, useState, Component } from "react";
 
 import "./Pathfinder.css";
 
+import Astar from "../Algorithms/Astar";
+
 import Node from "../components/Node/Node";
-import NodeList from "../components/NodeList/NodeList";
 import Options from "../components/Options/Options";
 
 export default function Pathfinder() {
@@ -50,10 +51,9 @@ export default function Pathfinder() {
       setNodes(newNodes);
     }
     setloaded(true);
-    console.log(startPoint,endPoint)
   }
   function runAlgo(){
-    console.log("here")
+    Astar(startPoint,endPoint,nodes)
   }
 
   function seeStart(bool) {
