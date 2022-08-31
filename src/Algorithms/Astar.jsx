@@ -1,29 +1,88 @@
 import React from "react"
 
-export default function Astar(start,end,nodes){
-    let y1 = start[0]
-    let x1 = start[1]
-    let y2 = end[0]
-    let x2 = end[1]
-    let neighbors = getNeighbors(start,nodes)
-    console.log(neighbors)
-    console.log(start)
-    // console.log(x1+x2+y1+y2)
+export default async function Astar(start,end,nodes){
+    const nodeScorse = AstarInit(start,end)
+    const open_set = [nodeScorse[start[0]][start[1]]]
+    const noders = await runAstar(open_set,nodeScorse,end,nodes)
+    console.log(noders)
+    
+
 }
 
-function getNeighbors(node, nodes){
+function getNeighbors(node, nodes,nodeScorse){
     let neighs = []
-    if( node[0]-1 >= 0){
-        neighs.push(nodes[node[0]-1][node[1]])
+    if( node[0]-1 >= 0 && !nodes[node[0]-1][node[1]].isWall){
+        neighs.push(nodeScorse[node[0]-1][node[1]])
     }
-    if( node[0]+1 < 20 ){
-        neighs.push(nodes[node[0]+1][node[1]])
+    if( node[0]+1 < 20 && !nodes[node[0]+1][node[1]].isWall){
+        neighs.push(nodeScorse[node[0]+1][node[1]])
     }
-    if( node[1]-1 >= 0){
-        neighs.push(nodes[node[0]][node[1]-1])
+    if( node[1]-1 >= 0 && !nodes[node[0]][node[1]-1].isWall){
+        neighs.push(nodeScorse[node[0]][node[1]-1])
     }
-    if( node[1]+1 < 50 ){
-        neighs.push(nodes[node[0]][node[1]+1])
+    if( node[1]+1 < 50 && !nodes[node[0]][node[1]+1].isWall){
+        neighs.push(nodeScorse[node[0]][node[1]+1])
     }
     return neighs
 }
+
+function createAstarNode(col, row) {
+    return {
+      col,
+      row,
+      // isStart: row === START_NODE_ROW && col === START_NODE_COL,
+      // isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
+      fScore: Infinity,
+      gScore: Infinity,
+    };
+  }
+
+  function AstarInit(start,end){
+    const nodeScorse = []
+    for (let row = 0; row < 20; row++) {
+        const currentRow = [];
+        for (let col = 0; col < 50; col++) {
+          currentRow.push(createAstarNode(col, row));
+        }
+        nodeScorse.push(currentRow);
+      }
+    nodeScorse[start[0]][start[1]].fScore = h(start,end)
+    nodeScorse[start[0]][start[1]].gScore = 0
+    return nodeScorse
+  }
+
+  function h(start,end){
+    const x = Math.abs(start[1] - end[1])
+    const y = Math.abs(start[0] - end[0])
+    return(x+y)
+  }
+
+  async function runAstar(open_set, nodeScorse, end, nodes){
+    let i = 0
+    const visitedNodes= []
+    while(open_set.length > 0){
+
+        const current = await open_set[0]
+        open_set.shift()
+        console.log(current)
+
+        if(current.row === end[0] && current.col === end[1]){
+            return visitedNodes
+        }
+        let neighbors = getNeighbors([current.row,current.col],nodes,nodeScorse)
+        neighbors.forEach(item =>{
+            const newGScore = current.gScore + 1
+            if(newGScore < item.gScore){
+                item.gScore = newGScore
+                item.fScore = item.gScore + h([item.row,item.col],end)
+            }
+            open_set.push(item)
+            visitedNodes.push(item)
+        })
+        open_set.sort((a,b) =>{
+            return a.fScore - b.fScore
+        })
+        i = i + 1
+    }
+    return visitedNodes
+  }

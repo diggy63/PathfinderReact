@@ -11,6 +11,8 @@ export default function Node({node, nodeColor, checkNodeLift}){
         color = 'Green'
     }else if(node.isEnd){
         color = 'Orange'
+    }else if(node.isWall){
+        color = 'Black'
     }
 
     function checkNode(){

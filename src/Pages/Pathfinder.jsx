@@ -33,27 +33,33 @@ export default function Pathfinder() {
 
   async function checkNode(row, col) {
     setloaded(false);
+    let newNodes = [...nodes];
     if (isStart) {
-      let newNodes = [...nodes];
       if(startPoint){
         newNodes[startPoint[0]][startPoint[1]].isStart = false;
       }
       newNodes[row][col].isStart = true;
       setStartPoint([row,col])
-      setNodes(newNodes);
     }else if(isEnd){
-      let newNodes = [...nodes];
       if(endPoint){
         newNodes[endPoint[0]][endPoint[1]].isEnd = false;
       }
       newNodes[row][col].isEnd = true;
       setEndPoint([row,col])
-      setNodes(newNodes);
+      
+    }else{
+      newNodes[row][col].isWall = !newNodes[row][col].isWall
     }
+    setNodes(newNodes);
     setloaded(true);
   }
-  function runAlgo(){
-    Astar(startPoint,endPoint,nodes)
+  async function runAlgo(){
+    const ans = await Astar(startPoint,endPoint,nodes)
+    let newNodes = [...nodes]
+    // ans.forEach(item =>{
+    //     newNodes[item.row][item.col].isVisited = true
+    //     setNodes(newNodes);
+    // })
   }
 
   function seeStart(bool) {
