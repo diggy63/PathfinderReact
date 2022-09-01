@@ -34,6 +34,7 @@ function createAstarNode(col, row) {
       // isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
       fScore: Infinity,
       gScore: Infinity,
+      camefrom:[]
     };
   }
 
@@ -65,6 +66,7 @@ function createAstarNode(col, row) {
         open_set.shift()
 
         if(current.row === end[0] && current.col === end[1]){
+            visitedNodes.push(current)
             return visitedNodes
         }
         let neighbors = getNeighbors([current.row,current.col],nodes,nodeScorse)
@@ -73,6 +75,7 @@ function createAstarNode(col, row) {
             if(newGScore < item.gScore){
                 item.gScore = newGScore
                 item.fScore = item.gScore + h([item.row,item.col],end)
+                item.camefrom.push(current)
                 const bool = checkVisiteditems(open_set,item)
                 if(!bool){
                     open_set.push(item)

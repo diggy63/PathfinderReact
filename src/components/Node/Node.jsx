@@ -19,7 +19,7 @@ export default function Node({node, nodeColor, checkNodeLift}){
 
 
     return(
-        <div className='node' id={color} onClick={checkNode}>
+        <div className={`node ${color}`} id={`node-${node.row}-${node.col}`} onClick={checkNode}>
         </div>
     )
 }

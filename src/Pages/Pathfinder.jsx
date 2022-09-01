@@ -8,7 +8,7 @@ import Node from "../components/Node/Node";
 import Options from "../components/Options/Options";
 
 export default function Pathfinder() {
-  const [counter,setCounter] = useState(0)
+  const [counter, setCounter] = useState(0);
   const [nodes, setNodes] = useState([]);
   const [loaded, setloaded] = useState(false);
   const [startPoint, setStartPoint] = useState(false);
@@ -19,9 +19,9 @@ export default function Pathfinder() {
   const COLS = 50;
 
   useEffect(() => {
-      console.log("mount");
-      const grid = gridInit();
-      setgrid(grid);
+    console.log("mount");
+    const grid = gridInit();
+    setgrid(grid);
   }, []);
 
   function setgrid(node) {
@@ -44,22 +44,39 @@ export default function Pathfinder() {
       setEndPoint([row, col]);
     } else {
       newNodes[row][col].isWall = !newNodes[row][col].isWall;
-      setNodes(newNodes)
+      setNodes(newNodes);
     }
   }
-
 
   async function runAlgo() {
     const ans = await Astar(startPoint, endPoint, nodes);
-    for(let i = 0; i < ans.length; i++){
-          runAnimation(ans,i);
-    }
+    runAnimation(ans);
   }
 
-  async function runAnimation(visitedNodes,counter) {
-        let newNodes = [...nodes];
-        newNodes[visitedNodes[counter].row][visitedNodes[counter].col].isVisited = true;
-        setNodes(newNodes)
+  async function runAnimation(visitedNodes) {
+    console.log(visitedNodes)
+    let lastNode = visitedNodes.pop();
+    const finish = [lastNode.row,lastNode.col]
+    console.log(lastNode)
+    visitedNodes.forEach((item) => {
+        document.getElementById(
+          `node-${item.row}-${item.col}`
+        ).className = `node Blue`;
+    });
+    lastNode = lastNode.camefrom[0];
+    const counter = lastNode.gScore
+
+    for (let i = 0; i < counter; i++) {
+        document.getElementById(
+          `node-${lastNode.row}-${lastNode.col}`
+        ).className = `node Purple`;
+        lastNode = lastNode.camefrom[0];
+      }
+      document.getElementById(
+        `node-${finish[0]}-${finish[1]}`
+      ).className = `node Orange`;
+
+    
   }
 
   function seeStart(bool) {
