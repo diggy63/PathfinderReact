@@ -49,7 +49,8 @@ export default function Pathfinder() {
     }
   }
   async function runDijkstras(){
-    Dijkstras(startPoint, endPoint, nodes)
+    const pathfound = Dijkstras(startPoint, endPoint, nodes)
+    runDijAnimation(pathfound)
   }
 
   async function runAstar() {
@@ -57,9 +58,34 @@ export default function Pathfinder() {
     runAnimation(ans);
   }
 
+  async function runDijAnimation(visitedNodes){
+    let lastNode = visitedNodes.pop();
+    lastNode = lastNode.prevNode[0]
+    const counter = lastNode.shortestD
+    console.log(lastNode)
+    await visitedNodes.forEach((item,i) => {
+      let newNodes = [...nodes]
+      setTimeout(()=>{
+        newNodes[item.row][item.col].isVisited = true
+        setNodes(newNodes)
+      },30*i)
+      })
+      setTimeout(() => {
+        for(let i = 0; i < counter;i++){
+        let newNodes = [...nodes]
+        setTimeout(() =>{
+          newNodes[lastNode.row][lastNode.col].isPath = true
+          setNodes(newNodes)
+          lastNode = lastNode.prevNode[0];
+
+        },50*i)
+      }
+      }, 30*visitedNodes.length);
+  }
+
+
   async function runAnimation(visitedNodes) {
     let lastNode = visitedNodes.pop();
-    const finish = [lastNode.row,lastNode.col]
     lastNode = lastNode.camefrom[0];
     const counter = lastNode.gScore
     await visitedNodes.forEach((item,i) => {
@@ -93,7 +119,7 @@ export default function Pathfinder() {
   }
 
   function resetGrid(){
-    const grid = gridInit();
+    const grid = gridReset();
     setNodes(grid)
   }
 
@@ -122,6 +148,29 @@ export default function Pathfinder() {
         currentRow.push(createNode(col, row));
       }
       nodestart.push(currentRow);
+    }
+    return nodestart;
+  }
+
+  function gridReset() {
+    const nodestart = [];
+    for (let row = 0; row < ROWS; row++) {
+      const currentRow = [];
+      for (let col = 0; col < COLS; col++) {
+        if(nodes[row][col].isWall){
+          currentRow.push(nodes[row][col])
+        }else{
+          currentRow.push(createNode(col, row));
+        }
+        
+      }
+      nodestart.push(currentRow);
+    }
+    if(startPoint){
+      nodestart[startPoint[0]][startPoint[1]].isStart = true;
+    }
+    if(endPoint){
+      nodestart[endPoint[0]][endPoint[1]].isEnd = true
     }
     return nodestart;
   }

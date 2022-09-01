@@ -2,16 +2,30 @@ import React from 'react'
 
 export default function Dijkstras(startP,endP,nodes){
     let grid = createAlgoGrid(startP)
-    let neighbors = getNeighbors(startP,nodes,grid)
-    let current = grid[startP[0]][startP[1]]
+    let unvisited = [grid[startP[0]][startP[1]]]
+    let visited = []
+    while(unvisited.length > 0){
+    let current = unvisited[0]
+    visited.push(unvisited.shift())
+    if(current.row === endP[0] && current.col === endP[1]){
+        return visited
+    }
+    let neighbors = getNeighbors([current.row,current.col],nodes,grid)
     neighbors.forEach(n =>{
         const potentialD = current.shortestD + 1
         if(n.shortestD > potentialD){
             n.shortestD = potentialD
-            n.prevNode = [current.row,current.col]
+            n.prevNode = [current]
         }
-        console.log(n)
-    })
+        const check = checkForSame(unvisited,visited,n)
+        if(!check){
+            unvisited.push(n)
+        }
+        })
+        unvisited.sort((a,b) =>{
+            return a.shortestD - b.shortestD
+        })
+    }
 }
 
 function getNeighbors(node, nodes,nodeScorse){
@@ -50,4 +64,19 @@ function createAlgoGrid(start){
       }
     nodeScorse[start[0]][start[1]].shortestD = 0
     return nodeScorse
+}
+
+function checkForSame(uv,v,n){
+    let check = false
+    uv.forEach(item => {
+        if(item === n){
+            check = true
+        }
+    })
+    v.forEach(item =>{
+        if(item === n){
+            check = true
+        }
+    })
+    return check
 }
