@@ -57,24 +57,56 @@ export default function Pathfinder() {
     console.log(visitedNodes)
     let lastNode = visitedNodes.pop();
     const finish = [lastNode.row,lastNode.col]
-    console.log(lastNode)
-    visitedNodes.forEach((item) => {
+    lastNode = lastNode.camefrom[0];
+    const counter = lastNode.gScore
+    await visitedNodes.forEach((item,i) => {
+        setTimeout(()=>{
         document.getElementById(
           `node-${item.row}-${item.col}`
         ).className = `node Blue`;
-    });
-    lastNode = lastNode.camefrom[0];
-    const counter = lastNode.gScore
 
-    for (let i = 0; i < counter; i++) {
-        document.getElementById(
-          `node-${lastNode.row}-${lastNode.col}`
-        ).className = `node Purple`;
-        lastNode = lastNode.camefrom[0];
+        },40*i)
+    })
+    setTimeout(() => {
+      for (let i = 0; i < counter; i++) {
+        setTimeout(()=>{
+          document.getElementById(
+            `node-${lastNode.row}-${lastNode.col}`
+          ).className = `node Purple`;
+          lastNode = lastNode.camefrom[0];
+        },50*i)
+
       }
       document.getElementById(
         `node-${finish[0]}-${finish[1]}`
       ).className = `node Orange`;
+      
+    }, 40*visitedNodes.length);
+    // for (let i = 0; i < counter; i++) {
+    //     setTimeout(()=>{
+    //       document.getElementById(
+    //         `node-${lastNode.row}-${lastNode.col}`
+    //       ).className = `node Purple`;
+    //       lastNode = lastNode.camefrom[0];
+    //     },30*i)
+
+    //   }
+    //   document.getElementById(
+    //     `node-${finish[0]}-${finish[1]}`
+    //   ).className = `node Orange`;
+    
+    // for (let i = 0; i < counter; i++) {
+    //     setTimeout(()=>{
+    //       document.getElementById(
+    //         `node-${lastNode.row}-${lastNode.col}`
+    //       ).className = `node Purple`;
+    //       lastNode = lastNode.camefrom[0];
+    //     },30*i)
+
+    //   }
+    //   document.getElementById(
+    //     `node-${finish[0]}-${finish[1]}`
+    //   ).className = `node Orange`;
 
     
   }
