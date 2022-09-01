@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react'
 
-export default function Options({seeStart, seeEnd, runAlgo}){
+export default function Options({seeStart, seeEnd, runAstar, runDijkstras, resetGrid}){
     const [isStart, setIsStart] = useState(false)
     const [isEnd, setIsEnd] = useState(false)
-    console.log('options reloaeded')
 
     // useEffect(() =>{
     //     console.log("switch")
@@ -23,7 +22,13 @@ export default function Options({seeStart, seeEnd, runAlgo}){
         setIsEnd(!isEnd)
     }
     function handleAstar(){
-        runAlgo()
+        runAstar()
+    }
+    function handleDijsktras(){
+        runDijkstras()
+    }
+    function gridReset(){
+        resetGrid()
     }
     return(
         <div>
@@ -33,6 +38,11 @@ export default function Options({seeStart, seeEnd, runAlgo}){
         <button onClick={handleEnd}>End</button>
         <h1>Run A*</h1>
         <button onClick={handleAstar}>Run</button>
+        <h1>Run Dijsktras</h1>
+        <button onClick={handleDijsktras}>Run</button>
+        <h1>Reset</h1>
+        <button onClick={gridReset}>Reset</button>
         </div>
+
     )
 }

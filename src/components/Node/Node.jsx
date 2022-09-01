@@ -3,14 +3,16 @@ import "./Node.css";
 
 export default function Node({node, nodeColor, checkNodeLift}){
     let color = ''
-    if(node.isVisited){
-        color = 'Blue'
+    if(node.isPath){
+        color = 'Purple'
     }else if(node.isStart){
-        color = 'Green'
+        color= 'Green'
     }else if(node.isEnd){
         color = 'Orange'
     }else if(node.isWall){
         color = 'Black'
+    }else if(node.isVisited){
+        color = 'Blue'
     }
 
     function checkNode(){

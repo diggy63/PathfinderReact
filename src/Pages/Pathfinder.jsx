@@ -3,6 +3,7 @@ import React, { useEffect, useState, Component } from "react";
 import "./Pathfinder.css";
 
 import Astar from "../Algorithms/Astar";
+import Dijkstras from "../Algorithms/Dijkstras";
 
 import Node from "../components/Node/Node";
 import Options from "../components/Options/Options";
@@ -47,68 +48,38 @@ export default function Pathfinder() {
       setNodes(newNodes);
     }
   }
+  async function runDijkstras(){
+    Dijkstras(startPoint, endPoint, nodes)
+  }
 
-  async function runAlgo() {
+  async function runAstar() {
     const ans = await Astar(startPoint, endPoint, nodes);
     runAnimation(ans);
   }
 
   async function runAnimation(visitedNodes) {
-    console.log(visitedNodes)
     let lastNode = visitedNodes.pop();
     const finish = [lastNode.row,lastNode.col]
     lastNode = lastNode.camefrom[0];
     const counter = lastNode.gScore
     await visitedNodes.forEach((item,i) => {
+        let newNodes = [...nodes]
         setTimeout(()=>{
-        document.getElementById(
-          `node-${item.row}-${item.col}`
-        ).className = `node Blue`;
-
-        },40*i)
+          newNodes[item.row][item.col].isVisited = true
+          setNodes(newNodes)
+        },30*i)
     })
     setTimeout(() => {
       for (let i = 0; i < counter; i++) {
+        let newNodes = [...nodes]
         setTimeout(()=>{
-          document.getElementById(
-            `node-${lastNode.row}-${lastNode.col}`
-          ).className = `node Purple`;
+          newNodes[lastNode.row][lastNode.col].isPath = true
+          setNodes(newNodes)
           lastNode = lastNode.camefrom[0];
         },50*i)
 
       }
-      document.getElementById(
-        `node-${finish[0]}-${finish[1]}`
-      ).className = `node Orange`;
-      
-    }, 40*visitedNodes.length);
-    // for (let i = 0; i < counter; i++) {
-    //     setTimeout(()=>{
-    //       document.getElementById(
-    //         `node-${lastNode.row}-${lastNode.col}`
-    //       ).className = `node Purple`;
-    //       lastNode = lastNode.camefrom[0];
-    //     },30*i)
-
-    //   }
-    //   document.getElementById(
-    //     `node-${finish[0]}-${finish[1]}`
-    //   ).className = `node Orange`;
-    
-    // for (let i = 0; i < counter; i++) {
-    //     setTimeout(()=>{
-    //       document.getElementById(
-    //         `node-${lastNode.row}-${lastNode.col}`
-    //       ).className = `node Purple`;
-    //       lastNode = lastNode.camefrom[0];
-    //     },30*i)
-
-    //   }
-    //   document.getElementById(
-    //     `node-${finish[0]}-${finish[1]}`
-    //   ).className = `node Orange`;
-
-    
+    }, 30*visitedNodes.length);
   }
 
   function seeStart(bool) {
@@ -121,9 +92,14 @@ export default function Pathfinder() {
     setIsEnd(bool);
   }
 
+  function resetGrid(){
+    const grid = gridInit();
+    setNodes(grid)
+  }
+
   return (
     <div className="container">
-      <Options seeStart={seeStart} seeEnd={seeEnd} runAlgo={runAlgo} />
+      <Options seeStart={seeStart} seeEnd={seeEnd} runAstar={runAstar} runDijkstras={runDijkstras} resetGrid={resetGrid} />
       <div className="grid">
         {nodes.map((row, ri) => {
           return (
@@ -159,7 +135,9 @@ export default function Pathfinder() {
       isVisited: false,
       isEnd: false,
       isWall: false,
+      isPath: false,
       previousNode: null,
+      color: '',
     };
   }
 }
