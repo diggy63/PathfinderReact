@@ -1,8 +1,9 @@
-.container{
+.botHalf{
     height: 100vh;
     width: 100vw;
     display: flex;
     justify-content: center;
+    flex-direction: column;
 
 }
 
@@ -11,6 +12,6 @@
     display: flex;
     align-content: center;
     flex-wrap: wrap;
-    min-width: 1250px;
-    max-width: 1250px;
+    width: 100%;
+    height: 50%;
 }

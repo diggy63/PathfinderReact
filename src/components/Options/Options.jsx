@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react'
 
+import './Options.css'
+
 export default function Options({seeStart, seeEnd, runAstar, runDijkstras, resetGrid}){
     const [isStart, setIsStart] = useState(false)
     const [isEnd, setIsEnd] = useState(false)
@@ -31,7 +33,7 @@ export default function Options({seeStart, seeEnd, runAstar, runDijkstras, reset
         resetGrid()
     }
     return(
-        <div>
+        <div className='optionC'>
         {isStart ? <h1>set start</h1> : <h1>click to set start</h1>}
         <button onClick={handleStart}>Start</button>
         {isEnd ? <h1>set End</h1> : <h1>click to set End</h1>}

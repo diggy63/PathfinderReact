@@ -17,7 +17,7 @@ export default function Pathfinder() {
   const [endPoint, setEndPoint] = useState(false);
   const [isStart, setIsStart] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
-  const ROWS = 20;
+  const ROWS = 22;
   const COLS = 50;
 
   useEffect(() => {
@@ -125,9 +125,9 @@ export default function Pathfinder() {
   }
 
   return (
-    <div>
+    <>
     <Header runAstar={runAstar}/>
-    <div className="container">
+    <div className="botHalf">
       <Options seeStart={seeStart} seeEnd={seeEnd} runAstar={runAstar} runDijkstras={runDijkstras} resetGrid={resetGrid} />
       <div className="grid">
         {nodes.map((row, ri) => {
@@ -141,7 +141,7 @@ export default function Pathfinder() {
         })}
       </div>
     </div>
-    </div>
+    </>
   );
 
   function gridInit() {
