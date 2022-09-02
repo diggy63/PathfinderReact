@@ -11,6 +11,7 @@ export default function Header({
   clearGrid,
   randomGrid,
 }) {
+  const [startOn, setStartOn] = useState('Set Start')
   const [isStart, setIsStart] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
 
@@ -47,7 +48,7 @@ export default function Header({
         <Container>
           <Navbar.Brand>Pathfinider</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link onClick={handleStart}>Set Start</Nav.Link>
+            <Nav.Link onClick={handleStart}>{startOn}</Nav.Link>
             <Nav.Link onClick={handleEnd}>Set End</Nav.Link>
             <NavDropdown title="Search Algorithm" id="navbarScrollingDropdown">
               <NavDropdown.Item onClick={handleAlgo}>A*</NavDropdown.Item>
