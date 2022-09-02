@@ -33,7 +33,7 @@ function getNeighbors(node, nodes,nodeScorse){
     if( node[0]-1 >= 0 && !nodes[node[0]-1][node[1]].isWall){
         neighs.push(nodeScorse[node[0]-1][node[1]])
     }
-    if( node[0]+1 < 20 && !nodes[node[0]+1][node[1]].isWall){
+    if( node[0]+1 < 25 && !nodes[node[0]+1][node[1]].isWall){
         neighs.push(nodeScorse[node[0]+1][node[1]])
     }
     if( node[1]-1 >= 0 && !nodes[node[0]][node[1]-1].isWall){
@@ -55,7 +55,7 @@ function createDijNode(col, row) {
 
 function createAlgoGrid(start){
     const nodeScorse = []
-    for (let row = 0; row < 20; row++) {
+    for (let row = 0; row < 25; row++) {
         const currentRow = [];
         for (let col = 0; col < 50; col++) {
           currentRow.push(createDijNode(col, row));

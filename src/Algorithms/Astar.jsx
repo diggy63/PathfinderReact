@@ -2,6 +2,7 @@ import React from "react"
 
 export default async function Astar(start,end,nodes){
     const nodeScorse = AstarInit(start,end)
+    console.log(nodeScorse)
     const open_set = [nodeScorse[start[0]][start[1]]]
     const noders = await runAstar(open_set,nodeScorse,end,nodes)
     return noders
@@ -14,7 +15,7 @@ function getNeighbors(node, nodes,nodeScorse){
     if( node[0]-1 >= 0 && !nodes[node[0]-1][node[1]].isWall){
         neighs.push(nodeScorse[node[0]-1][node[1]])
     }
-    if( node[0]+1 < 20 && !nodes[node[0]+1][node[1]].isWall){
+    if( node[0]+1 < 25 && !nodes[node[0]+1][node[1]].isWall){
         neighs.push(nodeScorse[node[0]+1][node[1]])
     }
     if( node[1]-1 >= 0 && !nodes[node[0]][node[1]-1].isWall){
@@ -38,7 +39,7 @@ function createAstarNode(col, row) {
 
   function AstarInit(start,end){
     const nodeScorse = []
-    for (let row = 0; row < 20; row++) {
+    for (let row = 0; row < 25; row++) {
         const currentRow = [];
         for (let col = 0; col < 50; col++) {
           currentRow.push(createAstarNode(col, row));

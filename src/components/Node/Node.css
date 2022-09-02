@@ -1,10 +1,10 @@
 .node{
-    height: 5%;
+    height: 4%;
     width: 2%;
     border-style: solid;
     border-width: 1px;
     box-sizing:border-box;
-    
+    margin: 0;
 }
 
 .Blue{
