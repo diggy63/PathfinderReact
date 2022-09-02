@@ -2,7 +2,6 @@ import React from "react"
 
 export default async function Astar(start,end,nodes){
     const nodeScorse = AstarInit(start,end)
-    console.log(nodeScorse)
     const open_set = [nodeScorse[start[0]][start[1]]]
     const noders = await runAstar(open_set,nodeScorse,end,nodes)
     return noders

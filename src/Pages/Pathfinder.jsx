@@ -29,6 +29,10 @@ export default function Pathfinder() {
   function setgrid(node) {
     setNodes(node);
   }
+  function clearGrid(){
+    const grid = gridInit();
+    setgrid(grid);
+  }
 
   async function checkNode(row, col) {
     let newNodes = [...nodes];
@@ -51,12 +55,22 @@ export default function Pathfinder() {
   }
   async function runDijkstras(){
     const pathfound = Dijkstras(startPoint, endPoint, nodes)
-    runDijAnimation(pathfound)
+    if(pathfound){
+      runDijAnimation(pathfound)
+    }else{
+      console.log('no solution')
+    }
+    
   }
 
   async function runAstar() {
     const ans = await Astar(startPoint, endPoint, nodes);
-    runAnimation(ans);
+    if(ans){
+      runAnimation(ans);
+    }else{
+      console.log('no solution')
+    }
+    
   }
 
   async function runDijAnimation(visitedNodes){
@@ -123,10 +137,14 @@ export default function Pathfinder() {
     const grid = gridReset();
     setNodes(grid)
   }
+  function randomGrid(){
+    const grid = randomizeWalls()
+    setNodes(grid)
+  }
 
   return (
     <>
-    <Header runAstar={runAstar} runDijkstras={runDijkstras} seeStart={seeStart} seeEnd={seeEnd} resetGrid={resetGrid}/>
+    <Header runAstar={runAstar} runDijkstras={runDijkstras} seeStart={seeStart} seeEnd={seeEnd} resetGrid={resetGrid} clearGrid={clearGrid} randomGrid={randomGrid}/>
     <div className="botHalf">
       <div className="grid">
         {nodes.map((row, ri) => {
@@ -177,6 +195,31 @@ export default function Pathfinder() {
     }
     return nodestart;
   }
+
+
+  function randomizeWalls(){
+    const nodestart = [];
+    for (let row = 0; row < ROWS; row++) {
+      const currentRow = [];
+      for (let col = 0; col < COLS; col++) {
+        let rNum = Math.floor(Math.random() * 10);
+        if(rNum > 5){
+           let rNode = createNode(col, row)
+           rNode.isWall = true
+           currentRow.push(rNode)
+        }else{
+          currentRow.push(createNode(col, row));
+        }
+        
+      }
+      nodestart.push(currentRow);
+    }
+    return nodestart;
+  }
+
+
+
+
 
   function createNode(col, row) {
     return {
