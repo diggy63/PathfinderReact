@@ -7,6 +7,7 @@ import Dijkstras from "../Algorithms/Dijkstras";
 
 import Node from "../components/Node/Node";
 import Options from "../components/Options/Options";
+import Header from "../components/Header/Header";
 
 export default function Pathfinder() {
   const [counter, setCounter] = useState(0);
@@ -124,6 +125,8 @@ export default function Pathfinder() {
   }
 
   return (
+    <div>
+    <Header runAstar={runAstar}/>
     <div className="container">
       <Options seeStart={seeStart} seeEnd={seeEnd} runAstar={runAstar} runDijkstras={runDijkstras} resetGrid={resetGrid} />
       <div className="grid">
@@ -137,6 +140,7 @@ export default function Pathfinder() {
           );
         })}
       </div>
+    </div>
     </div>
   );
 
