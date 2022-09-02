@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 
-import { Button, Nav } from "react-bootstrap";
+import { Button, Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
 
-export default function Header({ runAstar, runDijkstras, seeStart, seeEnd , resetGrid, clearGrid, randomGrid}) {
+export default function Header({
+  runAstar,
+  runDijkstras,
+  seeStart,
+  seeEnd,
+  resetGrid,
+  clearGrid,
+  randomGrid,
+}) {
   const [isStart, setIsStart] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
 
@@ -24,47 +32,37 @@ export default function Header({ runAstar, runDijkstras, seeStart, seeEnd , rese
   function handleDij() {
     runDijkstras();
   }
-  function handleReset(){
-    resetGrid()
+  function handleReset() {
+    resetGrid();
   }
-  function handleClear(){
-    clearGrid()
+  function handleClear() {
+    clearGrid();
   }
-  function handleRandom(){
-    randomGrid()
+  function handleRandom() {
+    randomGrid();
   }
   return (
-    <Nav
-      className="justify-content-center"
-      activeKey="/home"
-      onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
-    >
-      <Nav.Item>
-        <Button onClick={handleAlgo}>Run Astar</Button>
-      </Nav.Item>
-      <Nav.Item>
-        <Button onClick={handleDij}>Run Dijsktras</Button>
-      </Nav.Item>
-      <Nav.Item>
-        <Button onClick={handleStart}>Set Start</Button>
-      </Nav.Item>
-      <Nav.Item>
-        <Button onClick={handleEnd}>Set End</Button>
-      </Nav.Item>
-      <Nav.Item>
-        <Button onClick={handleRandom}>Randomize</Button>
-      </Nav.Item>
-      <Nav.Item>
-        <Button onClick={handleReset}>Reset</Button>
-      </Nav.Item>
-      <Nav.Item>
-        <Button onClick={handleClear}>Clear</Button>
-      </Nav.Item>
-      {/* <Nav.Item>
-        <Nav.Link eventKey="disabled" disabled>
-          Disabled
-        </Nav.Link>
-      </Nav.Item> */}
-    </Nav>
+    <>
+      <Navbar bg="dark" variant="dark">
+        <Container>
+          <Navbar.Brand>Pathfinider</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link onClick={handleStart}>Set Start</Nav.Link>
+            <Nav.Link onClick={handleEnd}>Set End</Nav.Link>
+            <NavDropdown title="Search Algorithm" id="navbarScrollingDropdown">
+              <NavDropdown.Item onClick={handleAlgo}>A*</NavDropdown.Item>
+              <NavDropdown.Item onClick={handleDij}>
+                Dijsktras
+              </NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown title="Build A Maze" id="navbarScrollingDropdown">
+              <NavDropdown.Item onClick={handleRandom}>Random</NavDropdown.Item>
+            </NavDropdown>
+            <Nav.Link onClick={handleReset}>Reset Path</Nav.Link>
+            <Nav.Link onClick={handleClear}>Clear Board</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+    </>
   );
 }
