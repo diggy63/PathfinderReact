@@ -56,6 +56,7 @@ export default function Pathfinder() {
     }
   }
   async function runAlgorithm(algo){
+    await resetGrid()
     if(!startPoint || !endPoint){
       console.log('missing Start or End Point')
       return

@@ -29,6 +29,7 @@ export default function Header({
   }
 
   function handleAlgo(e) {
+    resetGrid()
     console.log(e.target.innerHTML)
     runAlgorithm(e.target.innerHTML)
   }
@@ -54,7 +55,7 @@ export default function Header({
             <Nav.Link onClick={handleEnd}>Set End</Nav.Link>
             <NavDropdown title="Search Algorithm" id="navbarScrollingDropdown">
               <NavDropdown.Item onClick={handleAlgo}>A*</NavDropdown.Item>
-              <NavDropdown.Item onClick={handleDij}>
+              <NavDropdown.Item onClick={handleAlgo}>
                 Dijsktras
               </NavDropdown.Item>
             </NavDropdown>
