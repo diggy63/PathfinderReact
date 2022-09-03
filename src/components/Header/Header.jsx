@@ -10,6 +10,7 @@ export default function Header({
   resetGrid,
   clearGrid,
   randomGrid,
+  runAlgorithm
 }) {
   const [startOn, setStartOn] = useState('Set Start')
   const [isStart, setIsStart] = useState(false);
@@ -28,7 +29,8 @@ export default function Header({
   }
 
   function handleAlgo(e) {
-    runAstar();
+    console.log(e.target.innerHTML)
+    runAlgorithm(e.target.innerHTML)
   }
   function handleDij() {
     runDijkstras();

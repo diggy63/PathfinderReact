@@ -55,17 +55,17 @@ export default function Pathfinder() {
       setNodes(newNodes);
     }
   }
-  async function runDijkstras() {
-    const pathfound = Dijkstras(startPoint, endPoint, nodes);
-    if (pathfound) {
-      runAnimation(pathfound);
-    } else {
-      console.log("no solution");
+  async function runAlgorithm(algo){
+    if(!startPoint || !endPoint){
+      console.log('missing Start or End Point')
+      return
     }
-  }
-
-  async function runAstar() {
-    const ans = await Astar(startPoint, endPoint, nodes);
+    let ans = false
+    if(algo === 'A*'){
+      ans = await Astar(startPoint, endPoint, nodes);
+    }else if(algo === 'Dijsktras'){
+      ans = await Dijkstras(startPoint, endPoint, nodes);
+    }
     if (ans) {
       runAnimation(ans);
     } else {
@@ -114,13 +114,12 @@ export default function Pathfinder() {
   return (
     <>
       <Header
-        runAstar={runAstar}
-        runDijkstras={runDijkstras}
         seeStart={seeStart}
         seeEnd={seeEnd}
         resetGrid={resetGrid}
         clearGrid={clearGrid}
         randomGrid={randomGrid}
+        runAlgorithm={runAlgorithm}
       />
       <div className="botHalf">
         <div className="grid">
