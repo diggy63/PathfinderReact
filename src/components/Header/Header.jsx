@@ -9,7 +9,7 @@ export default function Header({
   seeEnd,
   resetGrid,
   clearGrid,
-  randomGrid,
+  mazeGrid,
   runAlgorithm
 }) {
   const [startOn, setStartOn] = useState('Set Start')
@@ -31,17 +31,14 @@ export default function Header({
   function handleAlgo(e){
     runAlgorithm(e.target.innerHTML)
   }
-  function handleDij() {
-    runDijkstras();
-  }
   function handleReset() {
     resetGrid();
   }
   function handleClear() {
     clearGrid();
   }
-  function handleRandom() {
-    randomGrid();
+  function handleMaze(e) {
+    mazeGrid(e.target.innerHTML);
   }
   return (
     <>
@@ -61,7 +58,8 @@ export default function Header({
               </NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Build A Maze" id="navbarScrollingDropdown">
-              <NavDropdown.Item onClick={handleRandom}>Random</NavDropdown.Item>
+              <NavDropdown.Item onClick={handleMaze}>Random</NavDropdown.Item>
+              <NavDropdown.Item onClick={handleMaze}>Recursive Division</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link onClick={handleReset}>Reset Path</Nav.Link>
             <Nav.Link onClick={handleClear}>Clear Board</Nav.Link>

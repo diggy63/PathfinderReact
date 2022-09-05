@@ -6,7 +6,9 @@ import Astar from "../Algorithms/Astar";
 import Dijkstras from "../Algorithms/Dijkstras";
 import DFS from "../Algorithms/DFS";
 
-import Random from '../Grids/Random'
+import Random from "../Grids/Random";
+import ReBacktrack from "../Grids/ReBacktrack";
+import RecursiveDiv from "../Grids/RecursiveDiv";
 
 import Node from "../components/Node/Node";
 import Options from "../components/Options/Options";
@@ -56,18 +58,18 @@ export default function Pathfinder() {
       setNodes(newNodes);
     }
   }
-  async function runAlgorithm(algo){
-    await resetGrid()
-    if(!startPoint || !endPoint){
-      console.log('missing Start or End Point')
-      return
+  async function runAlgorithm(algo) {
+    await resetGrid();
+    if (!startPoint || !endPoint) {
+      console.log("missing Start or End Point");
+      return;
     }
-    let ans = false
-    if(algo === 'A*'){
+    let ans = false;
+    if (algo === "A*") {
       ans = await Astar(startPoint, endPoint, nodes);
-    }else if(algo === 'Dijsktras'){
+    } else if (algo === "Dijsktras") {
       ans = await Dijkstras(startPoint, endPoint, nodes);
-    }else if(algo === 'Depth First Search'){
+    } else if (algo === "Depth First Search") {
       ans = await DFS(startPoint, endPoint, nodes);
     }
     if (ans) {
@@ -78,7 +80,7 @@ export default function Pathfinder() {
   }
 
   async function runAnimation(visitedNodes) {
-    console.log(visitedNodes[1])
+    console.log(visitedNodes[1]);
     await visitedNodes[0].forEach((item, i) => {
       let newNodes = [...nodes];
       setTimeout(() => {
@@ -87,13 +89,13 @@ export default function Pathfinder() {
       }, 30 * i);
     });
     setTimeout(() => {
-      visitedNodes[1].forEach((item,i) =>{
-        let newNodes = [...nodes]
-        setTimeout(()=>{
-          newNodes[item[0]][item[1]].isPath = true
-          setNodes(newNodes)
-        },50*i)
-      })
+      visitedNodes[1].forEach((item, i) => {
+        let newNodes = [...nodes];
+        setTimeout(() => {
+          newNodes[item[0]][item[1]].isPath = true;
+          setNodes(newNodes);
+        }, 50 * i);
+      });
     }, 30 * visitedNodes[0].length);
   }
 
@@ -111,8 +113,14 @@ export default function Pathfinder() {
     const grid = gridReset();
     setNodes(grid);
   }
-  function randomGrid() {
-    const grid = Random([ROWS,COLS]);
+  function mazeGrid(maze) {
+    let grid = []
+    if (maze === "Random") {
+      grid = Random([ROWS, COLS]);
+      
+    }else if(maze === "Recursive Division"){
+      grid = RecursiveDiv([ROWS,COLS])
+    }
     setNodes(grid);
   }
 
@@ -123,7 +131,7 @@ export default function Pathfinder() {
         seeEnd={seeEnd}
         resetGrid={resetGrid}
         clearGrid={clearGrid}
-        randomGrid={randomGrid}
+        mazeGrid={mazeGrid}
         runAlgorithm={runAlgorithm}
       />
       <div className="botHalf">
