@@ -5,8 +5,8 @@ export default function DFS(startP, endP, nodes) {
   let i = 0;
   while (unvisited.length > 0) {
     const current = unvisited[0];
+    unvisited.shift()
     visited.push(current);
-    unvisited = []
     if (current.row === endP[0] && current.col === endP[1]) {
       let firstNode = visited.shift();
       firstNode = firstNode.prevNode[0]
@@ -79,5 +79,10 @@ function checkForSame(uv, v, n) {
       check = true;
     }
   });
+  uv.forEach((item,i)=>{
+    if (item === n){
+        uv.splice(i,1)
+    }
+  })
   return check;
 }
