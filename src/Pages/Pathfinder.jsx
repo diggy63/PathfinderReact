@@ -4,6 +4,7 @@ import "./Pathfinder.css";
 
 import Astar from "../Algorithms/Astar";
 import Dijkstras from "../Algorithms/Dijkstras";
+import DFS from "../Algorithms/DFS";
 
 import Random from '../Grids/Random'
 
@@ -66,6 +67,8 @@ export default function Pathfinder() {
       ans = await Astar(startPoint, endPoint, nodes);
     }else if(algo === 'Dijsktras'){
       ans = await Dijkstras(startPoint, endPoint, nodes);
+    }else if(algo === 'Depth First Search'){
+      ans = await DFS(startPoint, endPoint, nodes);
     }
     if (ans) {
       runAnimation(ans);
@@ -75,6 +78,7 @@ export default function Pathfinder() {
   }
 
   async function runAnimation(visitedNodes) {
+    console.log(visitedNodes[1])
     await visitedNodes[0].forEach((item, i) => {
       let newNodes = [...nodes];
       setTimeout(() => {

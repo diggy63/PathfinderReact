@@ -28,8 +28,7 @@ export default function Header({
     setIsEnd(!isEnd);
   }
 
-  function handleAlgo(e) {
-    console.log(e.target.innerHTML)
+  function handleAlgo(e){
     runAlgorithm(e.target.innerHTML)
   }
   function handleDij() {
@@ -56,6 +55,9 @@ export default function Header({
               <NavDropdown.Item onClick={handleAlgo}>A*</NavDropdown.Item>
               <NavDropdown.Item onClick={handleAlgo}>
                 Dijsktras
+              </NavDropdown.Item>
+              <NavDropdown.Item onClick={handleAlgo}>
+                Depth First Search
               </NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Build A Maze" id="navbarScrollingDropdown">
