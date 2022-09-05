@@ -55,10 +55,7 @@ function h(start, end) {
 async function runAstar(open_set, nodeScorse, end, nodes) {
   const visitedNodes = [];
   while (open_set.length > 0) {
-    //trying to make a more effiecnt a star
     const current = await bestNode(open_set)
-    // const current = open_set[0]
-    // open_set.shift();
     visitedNodes.push(current);
     if (current.row === end[0] && current.col === end[1]) {
       
@@ -109,6 +106,9 @@ function bestNode(set){
         if(item.fScore === lowGS.fScore && item.gScore > lowGS.gScore){
             lowGS = item
             index = i
+        }
+        if(item.fScore > lowGS.fScore){
+            return
         }
     })
     set.splice(index,1)
