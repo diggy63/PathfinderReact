@@ -1,5 +1,3 @@
-import React from "react";
-
 export default async function Astar(start, end, nodes) {
   const nodeScorse = AstarInit(start, end);
   const open_set = [nodeScorse[start[0]][start[1]]];
@@ -57,11 +55,13 @@ function h(start, end) {
 async function runAstar(open_set, nodeScorse, end, nodes) {
   const visitedNodes = [];
   while (open_set.length > 0) {
-    const current = await open_set[0];
+    //trying to make a more effiecnt a star
+    // const current = await bestNode(open_set)
+    const current = open_set[0]
     open_set.shift();
-
+    visitedNodes.push(current);
     if (current.row === end[0] && current.col === end[1]) {
-      visitedNodes.push(current);
+      
       let lastNode = visitedNodes.pop();
       lastNode = lastNode.camefrom[0];
       const counter = lastNode.gScore;
@@ -83,13 +83,13 @@ async function runAstar(open_set, nodeScorse, end, nodes) {
         const bool = checkVisiteditems(open_set, item);
         if (!bool) {
           open_set.push(item);
-          visitedNodes.push(item);
         }
       }
     });
     open_set.sort((a, b) => {
       return a.fScore - b.fScore;
     });
+    console.log(open_set)
   }
 }
 
@@ -102,4 +102,12 @@ function checkVisiteditems(open_set, item) {
   return false;
 }
 
-
+function bestNode(set){
+    let lowGS = set[0]
+    set.forEach(item =>{
+        if(item.fScore === lowGS.fScore && item.gScore > lowGS.gScore){
+            lowGS = item
+        }
+    })
+    return lowGS
+}

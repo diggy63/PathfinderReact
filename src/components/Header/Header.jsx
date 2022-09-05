@@ -29,7 +29,6 @@ export default function Header({
   }
 
   function handleAlgo(e) {
-    resetGrid()
     console.log(e.target.innerHTML)
     runAlgorithm(e.target.innerHTML)
   }
