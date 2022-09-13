@@ -46,8 +46,8 @@ function Division(rows, cols, grid) {
   if (vert) {
     //builds vertical wall
     
-    let wall = Math.floor(Math.random() * (cols[1] - 4)) + 2;
-    const gap = Math.floor(Math.random() * (rows[1] - 4)) + 2;
+    let wall = Math.floor(Math.random() * (cols[1] - 4 - cols[0])) + (2+cols[0]);
+    const gap = Math.floor(Math.random() * (rows[1] - 4 - rows[0])) + (2+rows[0]);
     for (let i = rows[0]; i < rows[1]; i++) {
       if(grid[i][wall].isGap && (wall + 3) >= cols[1]){
         wall = wall - 1
@@ -67,8 +67,8 @@ function Division(rows, cols, grid) {
     newColsB = [wall, cols[1]];
   } else if(horz) {
     //build horizontal wall
-    const wall = Math.floor(Math.random() * (rows[1] - 4)) + 2;
-    const gap = Math.floor(Math.random() * (cols[1] - 4)) + 2;
+    const wall = Math.floor(Math.random() * (rows[1] - 4 - rows[0])) + (2+rows[0]);
+    const gap = Math.floor(Math.random() * (cols[1] - 4 - cols[1])) + (2 + cols[0]);
     for (let i = cols[0]; i < cols[1]; i++) {
       if(i === gap){
         grid[wall][i].isGap = true;
@@ -81,6 +81,7 @@ function Division(rows, cols, grid) {
     newRowsB = [wall, rows[1]];
   }
   Division(newRowsA,newColsA,grid)
+  Division(newRowsB,newColsB,grid)
 
 }
 
