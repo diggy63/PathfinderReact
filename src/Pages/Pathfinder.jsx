@@ -130,9 +130,9 @@ export default function Pathfinder() {
       
     }else if(maze === "Recursive Division"){
       grid = RecursiveDivision([ROWS,COLS])
-      runMazeAnimation(grid[1])
+      // runMazeAnimation(grid[1])
     }
-    // setNodes(grid[0]);
+    setNodes(grid[0]);
   }
 
   return (

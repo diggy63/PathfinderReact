@@ -15,10 +15,15 @@ function division(rows, cols, grid, np) {
     return;
   }
   const direc = getWallDirection(rows, cols);
-  if(direc){
-    buildVert()
-  }else{
-    buildHorz()
+  //   const direc = true
+  if (direc) {
+    const newCols = buildVert(rows, cols, grid, np);
+    division(rows,newCols[0],grid,np)
+    // division(rows, newCols[1], grid, np);
+  } else {
+    const newRols = buildHorz(rows, cols, grid, np);
+    division(newRols[0],cols,grid,np)
+    // division(newRols[1], cols, grid, np);
   }
 }
 
@@ -76,15 +81,70 @@ function getWallDirection(rows, cols) {
   }
   let number = Math.random();
   if (number < 0.5) {
-    return true
+    return true;
   } else {
-    return false
+    return false;
   }
 }
 
-function buildHorz(){
-
-}   
-function buildVert(){
-
+function buildHorz(rows, cols, grid, np) {
+  const wallEnd = cols[1] - 2;
+  const innerWallLength = rows[1] - rows[0] - 4;
+  let wallPosition =
+    Math.floor(Math.random() * innerWallLength) + (2 + rows[0]);
+  const gapInWall =
+    Math.floor(Math.random() * (wallEnd - cols[0])) + (1 + cols[0]);
+  console.log(grid[wallPosition][cols[0]], grid[wallPosition][cols[1] - 1]);
+  if (
+    grid[wallPosition][cols[0]].isGap ||
+    grid[wallPosition][cols[1] - 1].isGap
+  ) {
+    if (wallPosition + 3 === cols[1]) {
+      wallPosition = wallPosition - 1;
+    } else {
+      wallPosition = wallPosition + 1;
+    }
+  }
+  for (let i = cols[0] + 1; i <= wallEnd; i++) {
+    if (gapInWall === i) {
+      grid[wallPosition][i].isGap = true;
+    } else {
+      grid[wallPosition][i].isWall = true;
+      np.push([[wallPosition], i]);
+    }
+  }
+  return [
+    [rows[0], wallPosition + 1],
+    [wallPosition, rows[1]],
+  ];
+}
+function buildVert(rows, cols, grid, np) {
+  const wallEnd = rows[1] - 2;
+  const innerWallLength = cols[1] - cols[0] - 4;
+  let wallPosition =
+    Math.floor(Math.random() * innerWallLength) + (2 + cols[0]);
+  const gapInWall =
+    Math.floor(Math.random() * (wallEnd - rows[0])) + (1 + rows[0]);
+  if (
+    grid[rows[0]][wallPosition].isGap ||
+    grid[rows[1] - 1][wallPosition].isGap
+  ) {
+    if (wallPosition + 3 === rows[1]) {
+      wallPosition = wallPosition - 1;
+    } else {
+      wallPosition = wallPosition + 1;
+    }
+  }
+  for (let i = rows[0] + 1; i <= wallEnd; i++) {
+    if (gapInWall === i) {
+      grid[i][wallPosition].isGap = true;
+    } else {
+      grid[i][wallPosition].isWall = true;
+      np.push([i, [wallPosition]]);
+    }
+  }
+  return [
+    [cols[0], wallPosition + 1],
+    [wallPosition, cols[1], grid],
+  ];
 }
