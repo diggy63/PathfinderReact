@@ -9,6 +9,7 @@ import DFS from "../Algorithms/DFS";
 import Random from "../Grids/Random";
 import ReBacktrack from "../Grids/ReBacktrack";
 import RecursiveDiv from "../Grids/RecursiveDiv";
+import RecursiveDivision from "../Grids/RecursiveDivision";
 
 import Node from "../components/Node/Node";
 import Options from "../components/Options/Options";
@@ -98,7 +99,16 @@ export default function Pathfinder() {
       });
     }, 30 * visitedNodes[0].length);
   }
+  async function runMazeAnimation(mazeNodes){
 
+    await mazeNodes.forEach((item, i) => {
+      let newNodes = [...nodes];
+      setTimeout(() => {
+        newNodes[item[0]][item[1]].isWall = true;
+        setNodes(newNodes);
+      }, 30 * i);
+    });
+  }
   function seeStart(bool) {
     setIsEnd(false);
     setIsStart(bool);
@@ -119,9 +129,10 @@ export default function Pathfinder() {
       grid = Random([ROWS, COLS]);
       
     }else if(maze === "Recursive Division"){
-      grid = RecursiveDiv([ROWS,COLS])
+      grid = RecursiveDivision([ROWS,COLS])
+      runMazeAnimation(grid[1])
     }
-    setNodes(grid);
+    // setNodes(grid[0]);
   }
 
   return (
@@ -194,6 +205,7 @@ export default function Pathfinder() {
       isVisited: false,
       isEnd: false,
       isWall: false,
+      isGap: false,
       isPath: false,
       previousNode: null,
       color: "",
