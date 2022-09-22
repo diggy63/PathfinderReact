@@ -14,7 +14,7 @@ export default function Random(props){
           }
           nodestart.push(currentRow);
         }
-        return nodestart;
+        return [nodestart,null];
 
 }
     

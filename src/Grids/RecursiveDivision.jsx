@@ -120,21 +120,20 @@ function buildHorz(rows, cols, grid, np) {
   let wall = Math.floor(Math.random()*(rows[1]-rows[0]-1))+(rows[0]+1)
   // let wall = Math.floor(((rows[1]-rows[0]+1)/2)+(rows[0]+1))
   const gap = Math.floor(Math.random()*(cols[1]-cols[0]+1)+(cols[0]))
-  if(grid[wall][cols[0]-1].isGap || grid[wall][cols[1]+1].isGap ){
-    console.log(grid[wall][cols[0]-1])
-    console.log(grid[wall][cols[1]+1])
-    // if(wall + 1 === rows[1]){
-    //   wall = wall - 1
-    // }else{
-    //   wall = wall + 1
-    // }
-    return false
-  }
+
   for( let i = cols[0]; i <= cols[1]; i++){
     if(gap === i){
       grid[wall][i].isGap = true
     }else{
       grid[wall][i].isWall = true
+    }
+    if(grid[wall][cols[0]-1].isGap){
+      grid[wall][cols[0]].isWall = false
+      grid[wall][cols[0]+1].isWall = true
+    }
+    if(grid[wall][cols[1]+1].isGap ){
+      grid[wall][cols[1]].isWall = false
+      grid[wall][cols[1]-1].isWall = true
     }
     
   }
@@ -145,15 +144,7 @@ function buildVert(rows, cols, grid, np) {
   let wall = Math.floor(Math.random()*(cols[1]-cols[0]-1))+(cols[0]+1)
   // let wall = Math.floor(((cols[1]-cols[0]+1)/2)+(cols[0]+1))
   const gap = Math.floor(Math.random()*(rows[1]-rows[0]+1)+(rows[0]))
-  if(grid[rows[0]-1][wall].isGap || grid[rows[1]+1][wall].isGap ){
-    // if(wall + 1 === cols[1]){
-    //   wall = wall - 1
-    // }
-    // else{
-    //   wall = wall + 1
-    // }
-    return false
-  }
+
   for( let i = rows[0]; i <= rows[1]; i++){
     if(gap === i){
       grid[i][wall].isGap = true
@@ -161,6 +152,14 @@ function buildVert(rows, cols, grid, np) {
       grid[i][wall].isWall = true
     }
   }
+  if(grid[rows[0]-1][wall].isGap){
+    grid[rows[0]][wall].isWall = false
+    grid[rows[0]+ 1][wall].isWall = true
+  }else if(grid[rows[1]+1][wall].isGap){
+    grid[rows[1]][wall].isWall = false
+    grid[rows[1]-1][wall].isWall = false
+  }
+
   return [[rows[0],rows[1]],[rows[0],rows[1]],[cols[0],wall-1],[wall+1,cols[1]]]
 }
 

@@ -126,6 +126,7 @@ export default function Pathfinder() {
   function mazeGrid(maze) {
     let grid = []
     if (maze === "Random") {
+      console.log('here in random')
       grid = Random([ROWS, COLS]);
       
     }else if(maze === "Recursive Division"){
