@@ -2,19 +2,27 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 
-export default function ControlBar({ algo, runAlgorithm, seeStart, seeEnd, setWall }) {
+import "./ControlBar.css"
+
+export default function ControlBar({ algo, runAlgorithm, seeStart, seeEnd, setWall, clearGrid, resetGrid }) {
     const [startTile, setStartTile] = useState(false)
     const [endTile, setEndTile] = useState(false)
-    const [wallTile, setWallTile] = useState(false)
+    const [wallTile, setWallTile] = useState(true)
   let startButton;
   function handleClick(e) {
-    console.log(e.target.value);
-    runAlgorithm(e.target.value);
+    console.log(algo);
+    runAlgorithm(algo);
   }
   if (algo) {
     startButton = `Start ${algo}`;
   } else {
     startButton = "Pick Pathfinding Algorithm";
+  }
+  function handleClear(){
+    clearGrid()
+  }
+  function handleReset(){
+    resetGrid()
   }
   function handleStart(){
     seeStart(!startTile)
@@ -35,7 +43,7 @@ export default function ControlBar({ algo, runAlgorithm, seeStart, seeEnd, setWa
     setWallTile(true)
   }
   return (
-    <>
+    <div className="controlBar">
     <ListGroup as="ul">
     <ListGroup.Item as="li">Tile</ListGroup.Item>
     <ListGroup.Item as="li">
@@ -46,9 +54,19 @@ export default function ControlBar({ algo, runAlgorithm, seeStart, seeEnd, setWa
     </ListGroup>
     </ListGroup.Item>
     </ListGroup>
-      <Button variant="primary" value={algo} onClick={handleClick}>
+    <ListGroup as="ul">
+    <ListGroup.Item as="li">Control Bar</ListGroup.Item>
+    <ListGroup.Item as="li">
+    <ListGroup horizontal>
+      <ListGroup.Item onClick={handleClick} variant='success' >Start</ListGroup.Item>
+      <ListGroup.Item onClick={handleReset} variant='warning'>Reset Path</ListGroup.Item>
+      <ListGroup.Item onClick={handleClear} variant='danger'>Clear Board</ListGroup.Item>
+    </ListGroup>
+    </ListGroup.Item>
+    </ListGroup>
+      {/* <Button variant="primary" value={algo} onClick={handleClick}>
         {startButton}
-      </Button>
-    </>
+      </Button> */}
+    </div>
   );
 }
