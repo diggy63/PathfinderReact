@@ -7,8 +7,6 @@ import Dijkstras from "../Algorithms/Dijkstras";
 import DFS from "../Algorithms/DFS";
 
 import Random from "../Grids/Random";
-import ReBacktrack from "../Grids/ReBacktrack";
-import RecursiveDiv from "../Grids/RecursiveDiv";
 import RecursiveDivision from "../Grids/RecursiveDivision";
 
 import Node from "../components/Node/Node";
@@ -124,6 +122,11 @@ export default function Pathfinder() {
     setIsEnd(bool);
   }
 
+  function setWall(){
+    setIsStart(false);
+    setIsEnd(false);
+  }
+
   function resetGrid() {
     const grid = gridReset();
     setNodes(grid);
@@ -151,7 +154,7 @@ export default function Pathfinder() {
       />
       <div className="botHalf">
         <div className="controlBar">
-          <ControlBar algo={algo} runAlgorithm={runAlgorithm } />
+          <ControlBar algo={algo} runAlgorithm={runAlgorithm } seeStart={seeStart} seeEnd={seeEnd} setWall = {setWall}/>
         </div>
         <div className="grid">
           {nodes.map((row, ri) => {

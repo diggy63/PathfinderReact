@@ -97,9 +97,9 @@ function getWallDirection(rows, cols) {
   }
   const x = Math.floor(Math.random() * 2) == 0;
   if (x) {
-    return true;
-  } else {
     return false;
+  } else {
+    return true;
   }
 }
 
@@ -107,7 +107,6 @@ function buildHorz(rows, cols, grid, np) {
   console.log("builidng horz");
   let wall =
     Math.floor(Math.random() * (rows[1] - rows[0] - 1)) + (rows[0] + 1);
-  // let wall = Math.floor(((rows[1]-rows[0]+1)/2)+(rows[0]+1))
   const gap = Math.floor(Math.random() * (cols[1] - cols[0] + 1) + cols[0]);
   if (grid[wall][cols[0] - 1].isGap) {
     grid[wall][cols[0]].isGap = true;
