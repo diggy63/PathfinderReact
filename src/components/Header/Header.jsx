@@ -10,7 +10,7 @@ export default function Header({
   resetGrid,
   clearGrid,
   mazeGrid,
-  runAlgorithm
+  pickAlgorithm
 }) {
   const [startOn, setStartOn] = useState('Set Start')
   const [isStart, setIsStart] = useState(false);
@@ -29,7 +29,7 @@ export default function Header({
   }
 
   function handleAlgo(e){
-    runAlgorithm(e.target.innerHTML)
+    pickAlgorithm(e.target.innerHTML)
   }
   function handleReset() {
     resetGrid();

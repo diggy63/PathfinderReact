@@ -14,9 +14,10 @@ import RecursiveDivision from "../Grids/RecursiveDivision";
 import Node from "../components/Node/Node";
 import Options from "../components/Options/Options";
 import Header from "../components/Header/Header";
+import ControlBar from "../components/ControlBar/ControlBar";
 
 export default function Pathfinder() {
-  const [counter, setCounter] = useState(0);
+  const [algo, setAlgo] = useState("");
   const [nodes, setNodes] = useState([]);
   const [loaded, setloaded] = useState(false);
   const [startPoint, setStartPoint] = useState(false);
@@ -59,6 +60,11 @@ export default function Pathfinder() {
       setNodes(newNodes);
     }
   }
+
+  function pickAlgorithm(algo){
+    setAlgo(algo)
+
+  }
   async function runAlgorithm(algo) {
     await resetGrid();
     if (!startPoint || !endPoint) {
@@ -99,8 +105,7 @@ export default function Pathfinder() {
       });
     }, 30 * visitedNodes[0].length);
   }
-  async function runMazeAnimation(mazeNodes){
-
+  async function runMazeAnimation(mazeNodes) {
     await mazeNodes.forEach((item, i) => {
       let newNodes = [...nodes];
       setTimeout(() => {
@@ -124,16 +129,14 @@ export default function Pathfinder() {
     setNodes(grid);
   }
   function mazeGrid(maze) {
-    let grid = []
+    let grid = [];
     if (maze === "Random") {
-      console.log('here in random')
       grid = Random([ROWS, COLS]);
-      
-    }else if(maze === "Recursive Division"){
-      grid = RecursiveDivision([ROWS,COLS])
-      // runMazeAnimation(grid[1])
+    } else if (maze === "Recursive Division") {
+      grid = RecursiveDivision([ROWS, COLS]);
+      runMazeAnimation(grid[1]);
     }
-    setNodes(grid[0]);
+    // setNodes(grid[0]);
   }
 
   return (
@@ -144,9 +147,12 @@ export default function Pathfinder() {
         resetGrid={resetGrid}
         clearGrid={clearGrid}
         mazeGrid={mazeGrid}
-        runAlgorithm={runAlgorithm}
+        pickAlgorithm={pickAlgorithm}
       />
       <div className="botHalf">
+        <div className="controlBar">
+          <ControlBar algo={algo} runAlgorithm={runAlgorithm } />
+        </div>
         <div className="grid">
           {nodes.map((row, ri) => {
             return (
