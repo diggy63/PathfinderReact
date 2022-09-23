@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import { Button, Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
 
+import './Header.css'
+
 export default function Header({
   runAstar,
   runDijkstras,
@@ -12,20 +14,38 @@ export default function Header({
   mazeGrid,
   pickAlgorithm
 }) {
-  const [startOn, setStartOn] = useState('Set Start')
+  const [startColor, setStartColor] = useState('secondary')
+  const [endColor, setEndColor] = useState('secondary')
+  const [wallColor, setWallColor] = useState('success')
   const [isStart, setIsStart] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
 
   function handleStart() {
+    setStartColor('success')
+    setEndColor('secondary')
+    setWallColor('secondary')
     setIsEnd(false);
     seeStart(!isStart);
     setIsStart(!isStart);
   }
 
   function handleEnd() {
+    setEndColor('success')
+    setStartColor('secondary')
+    setWallColor('secondary')
     setIsStart(false);
     seeEnd(!isEnd);
     setIsEnd(!isEnd);
+  }
+  function handleWall(){
+    setEndColor('secondary')
+    setStartColor('secondary')
+    setWallColor('success')
+    setIsEnd(false);
+    setIsStart(false);
+    seeStart(false);
+    seeEnd(false);
+
   }
 
   function handleAlgo(e){
@@ -46,8 +66,15 @@ export default function Header({
         <Container>
           <Navbar.Brand>Pathfinider</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link onClick={handleStart}>{startOn}</Nav.Link>
-            <Nav.Link onClick={handleEnd}>Set End</Nav.Link>
+            <div className="buttonHeader">
+            <Button onClick={handleStart} variant={startColor}>Set Start Point</Button>{'     '}
+            </div>
+            <div className="buttonHeader">
+            <Button onClick={handleEnd} variant={endColor}>Set End Point</Button>
+            </div>
+            <div className="buttonHeader">
+            <Button onClick={handleWall} variant={wallColor}>Create Wall</Button>
+            </div>
             <NavDropdown title="Search Algorithm" id="navbarScrollingDropdown">
               <NavDropdown.Item onClick={handleAlgo}>A*</NavDropdown.Item>
               <NavDropdown.Item onClick={handleAlgo}>
@@ -61,6 +88,9 @@ export default function Header({
               <NavDropdown.Item onClick={handleMaze}>Random</NavDropdown.Item>
               <NavDropdown.Item onClick={handleMaze}>Recursive Division</NavDropdown.Item>
             </NavDropdown>
+            <div className="buttonHeader">
+            <Button onClick={handleStart} variant='success'>Start</Button>
+            </div>
             <Nav.Link onClick={handleReset}>Reset Path</Nav.Link>
             <Nav.Link onClick={handleClear}>Clear Board</Nav.Link>
           </Nav>

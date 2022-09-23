@@ -154,7 +154,6 @@ export default function Pathfinder() {
       />
       <div className="botHalf">
         <div className="controlBar">
-          <ControlBar algo={algo} resetGrid={resetGrid} clearGrid= {clearGrid} runAlgorithm={runAlgorithm } seeStart={seeStart} seeEnd={seeEnd} setWall = {setWall}/>
         </div>
         <div className="grid">
           {nodes.map((row, ri) => {
