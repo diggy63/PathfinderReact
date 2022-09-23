@@ -12,7 +12,8 @@ export default function Header({
   resetGrid,
   clearGrid,
   mazeGrid,
-  pickAlgorithm
+  pickAlgorithm,
+  runAlgorithm
 }) {
   const [startColor, setStartColor] = useState('secondary')
   const [endColor, setEndColor] = useState('secondary')
@@ -25,8 +26,8 @@ export default function Header({
     setEndColor('secondary')
     setWallColor('secondary')
     setIsEnd(false);
-    seeStart(!isStart);
-    setIsStart(!isStart);
+    seeStart(true);
+    setIsStart(true);
   }
 
   function handleEnd() {
@@ -34,8 +35,8 @@ export default function Header({
     setStartColor('secondary')
     setWallColor('secondary')
     setIsStart(false);
-    seeEnd(!isEnd);
-    setIsEnd(!isEnd);
+    seeEnd(true);
+    setIsEnd(true);
   }
   function handleWall(){
     setEndColor('secondary')
@@ -46,6 +47,9 @@ export default function Header({
     seeStart(false);
     seeEnd(false);
 
+  }
+  function handleAlgoStart(){
+    runAlgorithm()
   }
 
   function handleAlgo(e){
@@ -89,7 +93,7 @@ export default function Header({
               <NavDropdown.Item onClick={handleMaze}>Recursive Division</NavDropdown.Item>
             </NavDropdown>
             <div className="buttonHeader">
-            <Button onClick={handleStart} variant='success'>Start</Button>
+            <Button onClick={handleAlgoStart} variant='success'>Start</Button>
             </div>
             <Nav.Link onClick={handleReset}>Reset Path</Nav.Link>
             <Nav.Link onClick={handleClear}>Clear Board</Nav.Link>

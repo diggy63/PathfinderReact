@@ -59,11 +59,11 @@ export default function Pathfinder() {
     }
   }
 
-  function pickAlgorithm(algo){
-    setAlgo(algo)
+  function pickAlgorithm(algorithm){
+    setAlgo(algorithm)
 
   }
-  async function runAlgorithm(algo) {
+  async function runAlgorithm() {
     await resetGrid();
     if (!startPoint || !endPoint) {
       console.log("missing Start or End Point");
@@ -91,7 +91,7 @@ export default function Pathfinder() {
       setTimeout(() => {
         newNodes[item.row][item.col].isVisited = true;
         setNodes(newNodes);
-      }, 30 * i);
+      }, 45 * i);
     });
     setTimeout(() => {
       visitedNodes[1].forEach((item, i) => {
@@ -101,7 +101,7 @@ export default function Pathfinder() {
           setNodes(newNodes);
         }, 50 * i);
       });
-    }, 30 * visitedNodes[0].length);
+    }, 45 * visitedNodes[0].length);
   }
   async function runMazeAnimation(mazeNodes) {
     await mazeNodes.forEach((item, i) => {
@@ -151,6 +151,8 @@ export default function Pathfinder() {
         clearGrid={clearGrid}
         mazeGrid={mazeGrid}
         pickAlgorithm={pickAlgorithm}
+        runAlgorithm={runAlgorithm}
+        algo={algo}
       />
       <div className="botHalf">
         <div className="controlBar">

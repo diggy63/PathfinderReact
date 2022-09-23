@@ -7,9 +7,7 @@
     margin: 0;
 }
 
-.Blue{
-    background-color: blue;
-}
+
 
 .Orange{
     background-color: orange;
@@ -21,8 +19,33 @@
 
 .Black{
     background-color: black;
+    animation-duration: .5s;
+    animation-name: wallDown;
 }
 
 .Purple{
     background-color: blueviolet;
 }
+
+.Blue{
+    background-color: blue;
+    animation-duration: 1s;
+    animation-name: appear;
+}
+@keyframes appear {
+    0% {
+      background-color: red;
+    }
+    100% {
+      background-color: blue;
+    }
+  }
+
+  @keyframes wallDown {
+    0% {
+      background-color: white;
+    }
+    100% {
+      background-color: black;
+    }
+  }
