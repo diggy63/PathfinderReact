@@ -10,6 +10,7 @@ import Random from "../Grids/Random";
 import RecursiveDivision from "../Grids/RecursiveDivision";
 
 import Node from "../components/Node/Node";
+import BadAlert from "../components/BadAlert/BadAlert";
 import Options from "../components/Options/Options";
 import Header from "../components/Header/Header";
 import ControlBar from "../components/ControlBar/ControlBar";
@@ -22,6 +23,10 @@ export default function Pathfinder() {
   const [endPoint, setEndPoint] = useState(false);
   const [isStart, setIsStart] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
+  const [alertVar, setAlert] = useState({
+    clName: "alertDisplayNone",
+    error: "",
+  });
   const ROWS = 25;
   const COLS = 50;
 
@@ -38,7 +43,12 @@ export default function Pathfinder() {
     const grid = gridInit();
     setgrid(grid);
   }
-
+  function handleAlert(err) {
+    setAlert({clName:"alertShowUp",error:err});
+    setTimeout(() => {
+      setAlert({clName:"alertDisplayNone",error:''});
+    }, 5000);
+  }
   async function checkNode(row, col) {
     let newNodes = [...nodes];
     if (isStart) {
@@ -59,14 +69,13 @@ export default function Pathfinder() {
     }
   }
 
-  function pickAlgorithm(algorithm){
-    setAlgo(algorithm)
-
+  function pickAlgorithm(algorithm) {
+    setAlgo(algorithm);
   }
   async function runAlgorithm() {
     await resetGrid();
     if (!startPoint || !endPoint) {
-      console.log("missing Start or End Point");
+      handleAlert('missing Start or End Point')
       return;
     }
     let ans = false;
@@ -80,7 +89,7 @@ export default function Pathfinder() {
     if (ans) {
       runAnimation(ans);
     } else {
-      console.log("no solution");
+      handleAlert('No Solution Found. Walls BLocking Path To End')
     }
   }
 
@@ -122,7 +131,7 @@ export default function Pathfinder() {
     setIsEnd(bool);
   }
 
-  function setWall(){
+  function setWall() {
     setIsStart(false);
     setIsEnd(false);
   }
@@ -153,9 +162,11 @@ export default function Pathfinder() {
         pickAlgorithm={pickAlgorithm}
         runAlgorithm={runAlgorithm}
         algo={algo}
+        handleAlert={handleAlert}
       />
       <div className="botHalf">
-        <div className="controlBar">
+        <div className={alertVar.clName}>
+          <BadAlert err={alertVar.error}/>
         </div>
         <div className="grid">
           {nodes.map((row, ri) => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
+import { Button, Nav, Navbar, Container, NavDropdown, Modal } from "react-bootstrap";
 
 import './Header.css'
 
@@ -13,14 +13,24 @@ export default function Header({
   clearGrid,
   mazeGrid,
   pickAlgorithm,
-  runAlgorithm
+  runAlgorithm,
+  algo,
+  handleAlert
 }) {
+  const [show, setShow] = useState(false);
   const [startColor, setStartColor] = useState('secondary')
   const [endColor, setEndColor] = useState('secondary')
   const [wallColor, setWallColor] = useState('success')
   const [isStart, setIsStart] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
-
+  let startText
+  if(algo === ''){
+    startText = "Pick a Pathingfinding Algorithm"
+  }else{
+    startText = `Vizualize ${algo}`
+  }
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   function handleStart() {
     setStartColor('success')
     setEndColor('secondary')
@@ -49,7 +59,11 @@ export default function Header({
 
   }
   function handleAlgoStart(){
-    runAlgorithm()
+    if(algo === ''){
+      handleAlert("No Algorithm Picked")
+    }else{
+      runAlgorithm()
+    }
   }
 
   function handleAlgo(e){
@@ -92,14 +106,24 @@ export default function Header({
               <NavDropdown.Item onClick={handleMaze}>Random</NavDropdown.Item>
               <NavDropdown.Item onClick={handleMaze}>Recursive Division</NavDropdown.Item>
             </NavDropdown>
-            <div className="buttonHeader">
-            <Button onClick={handleAlgoStart} variant='success'>Start</Button>
+            <div className="startBut">
+            <Button classname="buttonFull"onClick={handleAlgoStart} variant='success'>Run Vizualizer</Button>
             </div>
             <Nav.Link onClick={handleReset}>Reset Path</Nav.Link>
             <Nav.Link onClick={handleClear}>Clear Board</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
+      <Modal show={show} onHide={handleClose} animation={false}>
+        <Modal.Header closeButton>
+          <Modal.Title>Pick An Algorithm in the Drop down</Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
