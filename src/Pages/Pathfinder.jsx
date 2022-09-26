@@ -12,8 +12,10 @@ import RecursiveDivision from "../Grids/RecursiveDivision";
 import Node from "../components/Node/Node";
 import BadAlert from "../components/BadAlert/BadAlert";
 import Header from "../components/Header/Header";
+import Instructions from "../components/Instructions/Instructions";
 
 export default function Pathfinder() {
+  const [modalShow, setModalShow] = useState(true);
   const [algo, setAlgo] = useState("");
   const [nodes, setNodes] = useState([]);
   const [loaded, setloaded] = useState(false);
@@ -140,6 +142,10 @@ export default function Pathfinder() {
     const grid = gridReset();
     setNodes(grid);
   }
+
+  function closeMod(){
+    setModalShow(false)
+  }
   async function mazeGrid(maze) {
     let grid = [];
     if (maze === "Random") {
@@ -153,6 +159,7 @@ export default function Pathfinder() {
 
   return (
     <>
+      {modalShow ? (<Instructions show={modalShow} closeMod={closeMod}/>) : (null)}
       <Header
         seeStart={seeStart}
         seeEnd={seeEnd}
