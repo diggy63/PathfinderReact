@@ -156,6 +156,7 @@ export default function Header({
                 </Button>
               )}
             </div>
+            <Nav.Link onClick={handleReset}>Reset Path</Nav.Link>
             <Nav.Link onClick={handleClear}>Clear Board</Nav.Link>
             <Nav.Link onClick={handleHelp}>Help</Nav.Link>
           </Nav>
