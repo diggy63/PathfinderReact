@@ -44,8 +44,8 @@ export default function Header({
     setEndColor("secondary");
     setWallColor("secondary");
     setIsEnd(false);
-    seeStart(!isStart);
-    setIsStart(!isStart);
+    seeStart(true);
+    setIsStart(true);
   }
 
   function handleEnd() {
@@ -53,8 +53,8 @@ export default function Header({
     setStartColor("secondary");
     setWallColor("secondary");
     setIsStart(false);
-    seeEnd(!isEnd);
-    setIsEnd(!isEnd);
+    seeEnd(true);
+    setIsEnd(true);
   }
   function handleWall() {
     setEndColor("secondary");

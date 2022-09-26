@@ -38,10 +38,10 @@ export default function Pathfinder() {
     setNodes(node);
   }
   function clearGrid() {
-    console.log('clear')
+    setStartPoint(false)
+    setEndPoint(false)
     const grid = gridInit();
     setgrid(grid);
-    return Promise.resolve("Success");
   }
   function handleAlert(err) {
     setAlert({clName:"alertShowUp",error:err});
@@ -80,11 +80,11 @@ export default function Pathfinder() {
     }
     let ans = false;
     if (algo === "A*") {
-      ans = await Astar(startPoint, endPoint, nodes);
+      ans = await Astar(startPoint, endPoint, nodes, ROWS,COLS);
     } else if (algo === "Dijsktras") {
-      ans = await Dijkstras(startPoint, endPoint, nodes);
+      ans = await Dijkstras(startPoint, endPoint, nodes,ROWS,COLS);
     } else if (algo === "Depth First Search") {
-      ans = await DFS(startPoint, endPoint, nodes);
+      ans = await DFS(startPoint, endPoint, nodes,ROWS,COLS);
     }
     if (ans) {
       runAnimation(ans);
@@ -108,7 +108,7 @@ export default function Pathfinder() {
         setTimeout(() => {
           newNodes[item[0]][item[1]].isPath = true;
           setNodes(newNodes);
-        }, 50 * i);
+        }, 100 * i);
       });
     }, 45 * visitedNodes[0].length);
   }
@@ -141,8 +141,6 @@ export default function Pathfinder() {
     setNodes(grid);
   }
   async function mazeGrid(maze) {
-    const cgrid = gridInit();
-     await setgrid(cgrid);
     let grid = [];
     if (maze === "Random") {
       grid = Random([ROWS, COLS]);
