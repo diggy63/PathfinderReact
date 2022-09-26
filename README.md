@@ -32,7 +32,7 @@ https://diggy63.github.io/PathfinderReact/
 
 ## IceBox
 
-More maze building algorithms
-Working on Mobile
-Making the page feel more intuitive
+- More maze building algorithms
+- Working on Mobile
+- Making the page feel more intuitive
 
