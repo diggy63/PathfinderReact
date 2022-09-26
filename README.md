@@ -1,8 +1,8 @@
-# Getting Started with Create React App
+# Pathfinder React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to my pathfinding app. The idea behind creating this app was to use only React and state to excute and represent common pathfinding algorithms.
 
-## Available Scripts
+##Pathfinding algorithms
 
 In the project directory, you can run:
 
