@@ -11,29 +11,37 @@ export default function RecursiveDivision(props) {
 }
 //recursive division function
 function division(rows, cols, grid, np) {
-  console.log("start of div", rows, cols);
+  //when the cols overlap and there is no space to build walls end recursion
   if (cols[1] - cols[0] <= 0 || !cols) {
-    console.log("cols sqiushed");
     return;
   }
+  //when the rows over lap meaning there is no where to build end the recursion
   if (rows[1] - rows[0] <= 0 || !rows) {
-    console.log("rows squished");
     return;
   }
+  // when the maze ends in a 2x2 we need to finish in a way in order not to cover exit
   if (cols[1] - cols[0] === 1 && rows[1] - rows[0] === 1) {
     finishSquare(rows, cols, grid, np);
     return;
   }
+  //getting direct of walls true === vert and false === horizontal
   const direct = getWallDirection(rows, cols);
   if (direct) {
     let newCols = buildVert(rows, cols, grid, np);
+    //after building the vertical wall we are given the new halfs after wall is built
+    // if there is no possible way to resolve the two new halfs ie there is to many gaps to make a wall
+    // or there is an error we rerun recursion
     if (!newCols) {
       newCols = division(rows, cols, grid, np);
     }
+
     division(newCols[0], newCols[2], grid, np);
     division(newCols[1], newCols[3], grid, np);
   } else {
     let newRows = buildHorz(rows, cols, grid, np);
+    //after building the vertical wall we are given the new halfs after wall is built
+    // if there is no possible way to resolve the two new halfs ie there is to many gaps to make a wall
+    // or there is an error we rerun recursion
     if (!newRows) {
       newRows = division(rows, cols, grid, np);
     }
@@ -60,7 +68,7 @@ function divisionInit(rows, cols, grid, np) {
     np.push([i, 0]);
   }
 }
-//builds the array of arrays that represent our nodes to do recursive div
+//builds the initial array of arrays that represent our nodes to do recursive div
 function gridInit(ROWS, COLS) {
   const nodestart = [];
   for (let row = 0; row < ROWS; row++) {
@@ -88,6 +96,8 @@ function createNode(col, row) {
   };
 }
 
+//Makes a 50 50 decision in order to make a vert or horizontal wall and has some 
+//logic to make sure we dont make a wall where there is no space
 function getWallDirection(rows, cols) {
   if (cols[1] - cols[0] <= 1) {
     return false;
@@ -103,17 +113,20 @@ function getWallDirection(rows, cols) {
   }
 }
 
+//bullds the horizontal wall and houses the logic that makes sure we dont cover gaps
 function buildHorz(rows, cols, grid, np) {
-  console.log("builidng horz");
   let wall =
     Math.floor(Math.random() * (rows[1] - rows[0] - 1)) + (rows[0] + 1);
   const gap = Math.floor(Math.random() * (cols[1] - cols[0] + 1) + cols[0]);
+  //next to if statments check to make sure we are not overlapping a former gap
+  //basically if we are running into a gap or exit we dont make a wall next to it
   if (grid[wall][cols[0] - 1].isGap) {
     grid[wall][cols[0]].isGap = true;
   }
   if (grid[wall][cols[1] + 1].isGap) {
     grid[wall][cols[1]].isGap = true
   }
+  //builds the wall
   for (let i = cols[0]; i <= cols[1]; i++) {
     if (gap === i) {
       grid[wall][i].isGap = true;
@@ -121,15 +134,8 @@ function buildHorz(rows, cols, grid, np) {
       grid[wall][i].isWall = true;
       np.push([wall,i])
     }
-    // if (grid[wall][cols[0] - 1].isGap) {
-    //   grid[wall][cols[0]].isWall = false;
-    //   grid[wall][cols[0] + 1].isWall = true;
-    // }
-    // if (grid[wall][cols[1] + 1].isGap) {
-    //   grid[wall][cols[1]].isWall = false;
-    //   grid[wall][cols[1] - 1].isWall = true;
-    // }
   }
+  //this return could be a little cleaner but this gives me more room to test future ideas
   return [
     [rows[0], wall - 1],
     [wall + 1, rows[1]],
@@ -137,19 +143,18 @@ function buildHorz(rows, cols, grid, np) {
     [cols[0], cols[1]],
   ];
 }
+//builds vertical wall
 function buildVert(rows, cols, grid, np) {
-  console.log("building vert");
   let wall =
     Math.floor(Math.random() * (cols[1] - cols[0] - 1)) + (cols[0] + 1);
-  // let wall = Math.floor(((cols[1]-cols[0]+1)/2)+(cols[0]+1))
   const gap = Math.floor(Math.random() * (rows[1] - rows[0] + 1) + rows[0]);
+  //two if statments to make sure we dont run into and cover a former exit
   if (grid[rows[0] - 1][wall].isGap) {
     grid[rows[0]][wall].isGap = true;
-    // grid[rows[0]+ 1][wall].isWall = true
   } else if (grid[rows[1] + 1][wall].isGap) {
     grid[rows[1]][wall].isGap = true;
-    // grid[rows[1]-1][wall].isWall = true
   }
+  //builds the wall
   for (let i = rows[0]; i <= rows[1]; i++) {
     if (gap === i) {
       grid[i][wall].isGap = true;
@@ -158,14 +163,7 @@ function buildVert(rows, cols, grid, np) {
       np.push([i,wall])
     }
   }
-  // if (grid[rows[0] - 1][wall].isGap) {
-  //   grid[rows[0]][wall].isWall = false;
-  //   // grid[rows[0]+ 1][wall].isWall = true
-  // } else if (grid[rows[1] + 1][wall].isGap) {
-  //   grid[rows[1]][wall].isWall = false;
-  //   // grid[rows[1]-1][wall].isWall = true
-  // }
-
+  //once agian this could be cleaner but its give me options to test in the future
   return [
     [rows[0], rows[1]],
     [rows[0], rows[1]],
@@ -174,7 +172,7 @@ function buildVert(rows, cols, grid, np) {
   ];
 }
 
+//future function to handlea a 2x2 sqaure to not cover and exit
 function finishSquare(rows, cols, grid, np) {
-  console.log(rows);
-  console.log(cols);
+  // console.log('2x2');
 }

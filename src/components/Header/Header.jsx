@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 
-import { Button, Nav, Navbar, Container, NavDropdown, Modal } from "react-bootstrap";
+import {
+  Button,
+  Nav,
+  Navbar,
+  Container,
+  NavDropdown,
+} from "react-bootstrap";
 
-import './Header.css'
+import "./Header.css";
 
 export default function Header({
   runAstar,
@@ -15,68 +21,75 @@ export default function Header({
   pickAlgorithm,
   runAlgorithm,
   algo,
-  handleAlert
+  handleAlert,
 }) {
   const [show, setShow] = useState(false);
-  const [startColor, setStartColor] = useState('secondary')
-  const [endColor, setEndColor] = useState('secondary')
-  const [wallColor, setWallColor] = useState('success')
+  const [startColor, setStartColor] = useState("secondary");
+  const [endColor, setEndColor] = useState("secondary");
+  const [wallColor, setWallColor] = useState("success");
   const [isStart, setIsStart] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
-  let startText
-  if(algo === ''){
-    startText = "Pick a Pathingfinding Algorithm"
-  }else{
-    startText = `Vizualize ${algo}`
+  const [didRun, setDidRun] = useState(false);
+  const [didMaze, setDidMaze] = useState(false);
+
+
+  let startText;
+  if (algo === "") {
+    startText = "Pick a Pathingfinding Algorithm";
+  } else {
+    startText = `Vizualize ${algo}`;
   }
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   function handleStart() {
-    setStartColor('success')
-    setEndColor('secondary')
-    setWallColor('secondary')
+    setStartColor("success");
+    setEndColor("secondary");
+    setWallColor("secondary");
     setIsEnd(false);
-    seeStart(true);
-    setIsStart(true);
+    seeStart(!isStart);
+    setIsStart(!isStart);
   }
 
   function handleEnd() {
-    setEndColor('success')
-    setStartColor('secondary')
-    setWallColor('secondary')
+    setEndColor("success");
+    setStartColor("secondary");
+    setWallColor("secondary");
     setIsStart(false);
-    seeEnd(true);
-    setIsEnd(true);
+    seeEnd(!isEnd);
+    setIsEnd(!isEnd);
   }
-  function handleWall(){
-    setEndColor('secondary')
-    setStartColor('secondary')
-    setWallColor('success')
+  function handleWall() {
+    setEndColor("secondary");
+    setStartColor("secondary");
+    setWallColor("success");
     setIsEnd(false);
     setIsStart(false);
     seeStart(false);
     seeEnd(false);
-
   }
-  function handleAlgoStart(){
-    if(algo === ''){
-      handleAlert("No Algorithm Picked")
-    }else{
-      runAlgorithm()
+  function handleAlgoStart() {
+    if (algo === "") {
+      handleAlert("No Algorithm Picked");
+    } else {
+      setDidRun(true)
+      runAlgorithm();
     }
   }
 
-  function handleAlgo(e){
-    pickAlgorithm(e.target.innerHTML)
+  function handleAlgo(e) {
+    pickAlgorithm(e.target.innerHTML);
   }
   function handleReset() {
+    setDidRun(false)
     resetGrid();
   }
   function handleClear() {
+    setDidRun(false)
+    setDidMaze(false)
     clearGrid();
   }
-  function handleMaze(e) {
-    mazeGrid(e.target.innerHTML);
+  async function handleMaze(e) {
+    setDidMaze(true)
+      mazeGrid(e.target.innerHTML);
+
   }
   return (
     <>
@@ -85,13 +98,20 @@ export default function Header({
           <Navbar.Brand>Pathfinider</Navbar.Brand>
           <Nav className="me-auto">
             <div className="buttonHeader">
-            <Button onClick={handleStart} variant={startColor}>Set Start Point</Button>{'     '}
+              <Button onClick={handleStart} variant={startColor}>
+                Set Start Point
+              </Button>
+              {"     "}
             </div>
             <div className="buttonHeader">
-            <Button onClick={handleEnd} variant={endColor}>Set End Point</Button>
+              <Button onClick={handleEnd} variant={endColor}>
+                Set End Point
+              </Button>
             </div>
             <div className="buttonHeader">
-            <Button onClick={handleWall} variant={wallColor}>Create Wall</Button>
+              <Button onClick={handleWall} variant={wallColor}>
+                Create Wall
+              </Button>
             </div>
             <NavDropdown title="Search Algorithm" id="navbarScrollingDropdown">
               <NavDropdown.Item onClick={handleAlgo}>A*</NavDropdown.Item>
@@ -102,28 +122,39 @@ export default function Header({
                 Depth First Search
               </NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown title="Build A Maze" id="navbarScrollingDropdown">
-              <NavDropdown.Item onClick={handleMaze}>Random</NavDropdown.Item>
-              <NavDropdown.Item onClick={handleMaze}>Recursive Division</NavDropdown.Item>
-            </NavDropdown>
+                        {didMaze ?( 
+                            <Nav.Link onClick={handleClear}>  Clear the Maze  </Nav.Link>
+                        ):(
+                          <NavDropdown title="Build A Maze" id="navbarScrollingDropdown">
+                          <NavDropdown.Item onClick={handleMaze}>Random</NavDropdown.Item>
+                          <NavDropdown.Item onClick={handleMaze}>
+                            Recursive Division
+                          </NavDropdown.Item>
+                        </NavDropdown>
+                         )}
             <div className="startBut">
-            <Button classname="buttonFull"onClick={handleAlgoStart} variant='success'>Run Vizualizer</Button>
+              {didRun ? (
+                <Button
+                  classname="buttonFull"
+                  onClick={handleReset}
+                  variant="success"
+                >
+                  Reset Path
+                </Button>
+              ) : (
+                <Button
+                  classname="buttonFull"
+                  onClick={handleAlgoStart}
+                  variant="success"
+                >
+                  Run Vizualizer
+                </Button>
+              )}
             </div>
-            <Nav.Link onClick={handleReset}>Reset Path</Nav.Link>
             <Nav.Link onClick={handleClear}>Clear Board</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
-      <Modal show={show} onHide={handleClose} animation={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>Pick An Algorithm in the Drop down</Modal.Title>
-        </Modal.Header>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </>
   );
 }

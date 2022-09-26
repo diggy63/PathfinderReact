@@ -11,9 +11,7 @@ import RecursiveDivision from "../Grids/RecursiveDivision";
 
 import Node from "../components/Node/Node";
 import BadAlert from "../components/BadAlert/BadAlert";
-import Options from "../components/Options/Options";
 import Header from "../components/Header/Header";
-import ControlBar from "../components/ControlBar/ControlBar";
 
 export default function Pathfinder() {
   const [algo, setAlgo] = useState("");
@@ -40,8 +38,10 @@ export default function Pathfinder() {
     setNodes(node);
   }
   function clearGrid() {
+    console.log('clear')
     const grid = gridInit();
     setgrid(grid);
+    return Promise.resolve("Success");
   }
   function handleAlert(err) {
     setAlert({clName:"alertShowUp",error:err});
@@ -140,15 +140,17 @@ export default function Pathfinder() {
     const grid = gridReset();
     setNodes(grid);
   }
-  function mazeGrid(maze) {
+  async function mazeGrid(maze) {
+    const cgrid = gridInit();
+     await setgrid(cgrid);
     let grid = [];
     if (maze === "Random") {
       grid = Random([ROWS, COLS]);
+      runMazeAnimation(grid[1]);
     } else if (maze === "Recursive Division") {
       grid = RecursiveDivision([ROWS, COLS]);
       runMazeAnimation(grid[1]);
     }
-    // setNodes(grid[0]);
   }
 
   return (
