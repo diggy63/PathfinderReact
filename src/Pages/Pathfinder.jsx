@@ -146,6 +146,9 @@ export default function Pathfinder() {
   function closeMod(){
     setModalShow(false)
   }
+  function openMod(){
+    setModalShow(true)
+  }
   async function mazeGrid(maze) {
     let grid = [];
     if (maze === "Random") {
@@ -170,6 +173,7 @@ export default function Pathfinder() {
         runAlgorithm={runAlgorithm}
         algo={algo}
         handleAlert={handleAlert}
+        openMod={openMod}
       />
       <div className="botHalf">
         <div className={alertVar.clName}>

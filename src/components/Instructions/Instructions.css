@@ -1,0 +1,40 @@
+.nodeI{
+    height: 30px;
+    width: 30px;
+    border-style: solid;
+    border-width: 1px;
+    box-sizing:border-box;
+    margin-right: 10px;
+    margin-left: 10px;
+    float:left
+}
+
+.wall{
+    background-color: black;
+}
+
+.startP{
+    background-image: url(../../../public/tCir.png);
+    background-size: contain;
+    background-color: green;
+}
+
+.pathP{
+    background-image: url(../../../public/tCir.png);
+  background-size: contain;
+  background-color: lightsteelblue;
+}
+
+.visitedP{
+    background-color:lightsteelblue;
+}
+
+.endP{
+    background-image: url(../../../public/Transparent_X.png);
+    background-size: contain;
+    background-color: darkorchid;
+}
+
+ul > li {
+    display: inline-block;
+}

@@ -22,6 +22,7 @@ export default function Header({
   runAlgorithm,
   algo,
   handleAlert,
+  openMod,
 }) {
   const [show, setShow] = useState(false);
   const [startColor, setStartColor] = useState("secondary");
@@ -72,6 +73,10 @@ export default function Header({
       setDidRun(true)
       runAlgorithm();
     }
+  }
+
+  function handleHelp(){
+    openMod()
   }
 
   function handleAlgo(e) {
@@ -152,6 +157,7 @@ export default function Header({
               )}
             </div>
             <Nav.Link onClick={handleClear}>Clear Board</Nav.Link>
+            <Nav.Link onClick={handleHelp}>Help</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
