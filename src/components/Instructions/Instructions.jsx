@@ -10,7 +10,7 @@ export default function Instructions({ show, closeMod }) {
   return (
     <Modal
       show={show}
-      size="lg"
+      size="xl"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
