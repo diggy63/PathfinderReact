@@ -5,12 +5,17 @@ Welcome to my pathfinding app. The idea behind creating this app was to use only
 ## Pathfinding algorithms
 
 ### Depth First Search
+
 The most common way to traverse nodes and node trees. You traverse nodes until you get to null. After you reach null you go back to the frist available node with a path. You do this until you have traversed all nodes available. Very bad stratgy for finding the best path but if you want to traverse every node and track some information this will reach everynode. 
 
-### `npm start`
+### Dijkstra's
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Non-weighted algorithm to find the shortest possible path. Dijsktras looks at the current node visits all of its neighbors(for this application anything that isnt a wall or out of bounds 1 move away). It adds current traveled steps and length of travel to neighbor node, always making sure that its keeps the minimun moves traveled, and moves its current node to the node with shortest distance traveled to reach it. continues to do so until we reach then end or run out of nodes available. It will find the shortest path but not in the shortest amount of nodes visited.
+
+### A star
+
+Weighted algorithm that always finds the shorest path. Astar takes two values, g score and f score, g score is total steps taken to reach current node and f score is g score plus estimated distance to end using a heuristic function, in this case its a simple (x1-x2) / (y1-y2). Its moves from current to next node by taking the current neighbors and calculating there f and g scores, adding them to unvisited, then sorting unvisited by lowest to highest and moving to the lowest f score. A star is the most common pathfinding algorithm and gaurantees the shortest path with minimal steps taken.
+
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
