@@ -2,9 +2,10 @@
 
 Welcome to my pathfinding app. The idea behind creating this app was to use only React and state to excute and represent common pathfinding algorithms.
 
-##Pathfinding algorithms
+## Pathfinding algorithms
 
-In the project directory, you can run:
+### Depth First Search
+The most common way to traverse nodes and node trees. You traverse nodes until you get to null. After you reach null you go back to the frist available node with a path. You do this until you have traversed all nodes available. Very bad stratgy for finding the best path but if you want to traverse every node and track some information this will reach everynode. 
 
 ### `npm start`
 
